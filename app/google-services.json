@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "351989077006",
+    "project_id": "care---tomato-timer",
+    "storage_bucket": "care---tomato-timer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351989077006:android:f3327193663da1dbb7985f",
+        "android_client_info": {
+          "package_name": "com.application.care"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "351989077006-qo2dae5c2b2pf97e6u2eieo9r600cf0e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyVvckkmr1p36VEsqa8uB5JGCVtX5Aous"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "351989077006-qo2dae5c2b2pf97e6u2eieo9r600cf0e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

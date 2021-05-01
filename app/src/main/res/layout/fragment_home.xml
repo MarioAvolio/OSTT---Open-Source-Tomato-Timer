@@ -4,29 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/firstColor"
     tools:context=".ui.home.HomeFragment">
 
-    <EditText
-        android:id="@+id/timeText"
+    <cn.iwgang.countdownview.CountdownView
+        android:id="@+id/countDown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autoText="false"
-        android:contextClickable="false"
-        android:elegantTextHeight="true"
-        android:ems="10"
-        android:fontFamily="sans-serif"
-        android:freezesText="false"
-        android:inputType="time"
-        android:text="25:00"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="36sp"
-        android:textStyle="bold"
+        app:isHideTimeBackground="true"
+        app:isShowHour="true"
+        app:isShowMinute="true"
+        app:isShowSecond="true"
+        app:isTimeTextBold="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:suffixGravity="bottom"
+        app:suffixHour="h"
+        app:suffixMinute="m"
+        app:suffixSecond="s"
+        app:suffixTextColor="@color/thirdColor"
+        app:suffixTextSize="24sp"
+        app:timeTextColor="@color/fourthColor"
+        app:timeTextSize="48sp"
+        tools:ignore="MissingConstraints" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
