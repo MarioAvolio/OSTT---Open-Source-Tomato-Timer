@@ -14,12 +14,8 @@ import com.application.care.R;
 import com.application.care.model.WorkTime;
 import com.application.care.util.UtilDB;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class HandlerDB extends SQLiteOpenHelper {
 
@@ -104,13 +100,13 @@ public class HandlerDB extends SQLiteOpenHelper {
         //Loop through our data
         if (cursor.moveToFirst()) {
             do {
-                WorkTime workTime = new WorkTime("James", "213986");
-                workTime.setId(Integer.parseInt(cursor.getString(0)));
-                workTime.setName(cursor.getString(1));
-                workTime.setPhoneNumber(cursor.getString(2));
+//                WorkTime workTime = new WorkTime("James", "213986");
+//                workTime.setId(Integer.parseInt(cursor.getString(0)));
+//                workTime.setName(cursor.getString(1));
+//                workTime.setPhoneNumber(cursor.getString(2));
 
                 //add workTime objects to our list
-                workTimeList.add(workTime);
+//                workTimeList.add(workTime);
             } while (cursor.moveToNext());
         }
 
