@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.application.care.R;
 import com.application.care.data.HandlerDB;
-import com.application.care.model.HandlerTime;
+import com.application.care.util.HandlerTime;
 
 import cn.iwgang.countdownview.CountdownView;
 
