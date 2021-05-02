@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/firstColor"
-    tools:context=".ui.home.HomeFragment">
+    android:background="@color/fourthColor"
+    tools:context=".ui.home.HomeFragment"
+    tools:ignore="NamespaceTypo">
+
 
     <cn.iwgang.countdownview.CountdownView
         android:id="@+id/countDown"
@@ -20,14 +22,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.422"
         app:suffixGravity="bottom"
         app:suffixHour="h"
         app:suffixMinute="m"
         app:suffixSecond="s"
         app:suffixTextColor="@color/thirdColor"
         app:suffixTextSize="24sp"
-        app:timeTextColor="@color/fourthColor"
+        app:timeTextColor="@color/firstColor"
         app:timeTextSize="48sp"
+        tools:ignore="MissingConstraints" />
+
+    <com.daimajia.numberprogressbar.NumberProgressBar
+        android:id="@+id/number_progress_bar"
+
+
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/countDown"
         tools:ignore="MissingConstraints" />
 
 

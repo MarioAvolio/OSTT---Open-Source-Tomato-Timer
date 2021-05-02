@@ -1,7 +1,6 @@
 package com.application.care.ui.home;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +10,20 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.application.care.R;
-import com.application.care.data.HandlerDB;
-import com.application.care.util.HandlerTime;
-
-import cn.iwgang.countdownview.CountdownView;
 
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
+    private static final String REMAINING_TIME = "REMAINING";
     private HomeViewModel homeViewModel;
+
+    private void manageCountDownTime(View root) {
+        HandlerCountDownTime.getInstance().setView(root);
+    }
+
+    private void manageProgressBar(View root) {
+        HandlerProgressBar.getInstance().setView(root);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -28,40 +32,8 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-//        manage countdown time
-
-        Log.d(TAG, "onCreateView TIME SEATED: " + HandlerTime.getInstance().getTime());
-        CountdownView mCvCountdownView = (CountdownView) root.findViewById(R.id.countDown);
-        final long[] timeLeft = {HandlerTime.getInstance().getTime()}; //remaining time
-        final boolean[] isStarted = {false}; // stop / start / resume
-
-
-//        set click listener
-        mCvCountdownView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isStarted[0]) {
-                    mCvCountdownView.pause();
-                    timeLeft[0] = mCvCountdownView.getRemainTime();
-                } else
-                    mCvCountdownView.start(timeLeft[0]); // Millisecond
-
-
-                isStarted[0] = !isStarted[0];
-            }
-        });
-
-
-//        set stop listener
-
-        mCvCountdownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
-            @Override
-            public void onEnd(CountdownView cv) {
-
-                HandlerDB.getInstance().insertTime(HandlerTime.getInstance().getTime());
-
-            }
-        });
+        manageCountDownTime(root);
+        manageProgressBar(root);
 
 //        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
 //            @Override
@@ -71,4 +43,19 @@ public class HomeFragment extends Fragment {
 //        });
         return root;
     }
+
+
+//    save state
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        try {
+            outState.putLong(REMAINING_TIME, HandlerCountDownTime.getInstance().getRemainingTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        outState.putString(RANDOM_GOOD_DEED_KEY, randomGoodDeed);
+    }
+
 }
