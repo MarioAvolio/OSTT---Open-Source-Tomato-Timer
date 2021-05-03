@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -60,6 +61,11 @@ public class HandlerDB extends SQLiteOpenHelper {
      */
     //Add WorkTime
     public void addWorkTime(@NotNull WorkTime workTime) {
+
+//        if there is just a date, it will update this worktime
+        if (thereIsADate(workTime.getDate()))
+            updateWorkTime(workTime);
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -69,13 +75,13 @@ public class HandlerDB extends SQLiteOpenHelper {
         //Insert to row
         db.insert(UtilDB.TABLE_DATA_TIME, null, values);
 
-        Log.d("DBHandler", "addWorkTime: " + "item added");
+        Log.d(TAG, "addWorkTime: " + "item added");
         db.close(); //closing db connection!
 
     }
 
     //Get a workTime
-    public WorkTime getWorkTime(String date) {
+    public WorkTime getWorkTime(String date) throws SQLException {
         SQLiteDatabase db = this.getReadableDatabase();
 
         @SuppressLint("Recycle") Cursor cursor = db.query(UtilDB.TABLE_DATA_TIME,
@@ -85,9 +91,26 @@ public class HandlerDB extends SQLiteOpenHelper {
 
         if (cursor != null)
             cursor.moveToFirst();
+        else
+            throw new SQLException("Date not present!");
 
-        assert cursor != null;
+        Log.d(TAG, "getWorkTime item get");
         return new WorkTime(cursor.getString(0), Float.parseFloat(cursor.getString(1)));
+    }
+
+
+    //    check if there is a worktime with a custom date
+    public boolean thereIsADate(String date) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        @SuppressLint("Recycle") Cursor cursor = db.query(UtilDB.TABLE_DATA_TIME,
+                new String[]{UtilDB.KEY_DATE, UtilDB.KEY_TIME},
+                UtilDB.KEY_DATE + "=?", new String[]{date},
+                null, null, null);
+
+
+        Log.d(TAG, "thereIsADate ok");
+        return cursor != null;
     }
 
     //Get all WorkTimes
@@ -110,27 +133,42 @@ public class HandlerDB extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        Log.d(TAG, "getAllWorkTimes items get");
         return workTimeList;
     }
 
     //Update workTime
     public int updateWorkTime(@NotNull WorkTime workTime) {
+
+//        if there isn't a worktime with a custom date, it will add this.
+        if (!thereIsADate(workTime.getDate()))
+            addWorkTime(workTime);
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(UtilDB.KEY_TIME, workTime.getTime());
 
         //update the row
+
+        Log.d(TAG, "updateWorkTime update ok");
+
         return db.update(UtilDB.TABLE_DATA_TIME, values, UtilDB.KEY_DATE + "=?",
                 new String[]{String.valueOf(workTime.getDate())});
     }
 
     //Delete single workTime
     public void deleteWorkTime(@NotNull WorkTime workTime) {
+
+        if (!thereIsADate(workTime.getDate()))
+            return;
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(UtilDB.TABLE_DATA_TIME, UtilDB.KEY_DATE + "=?",
                 new String[]{String.valueOf(workTime.getDate())});
+
+        Log.d(TAG, "deleteWorkTime delete ok ");
 
         db.close();
     }
@@ -141,6 +179,8 @@ public class HandlerDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery(countQuery, null);
 
+
+        Log.d(TAG, "getCount get count ok! ");
         return cursor.getCount();
 
     }

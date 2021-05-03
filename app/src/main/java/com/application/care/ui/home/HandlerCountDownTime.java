@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.application.care.R;
+import com.application.care.data.HandlerDB;
+import com.application.care.model.WorkTime;
 import com.application.care.util.HandlerTime;
 
 import cn.iwgang.countdownview.CountdownView;
@@ -55,6 +57,8 @@ public class HandlerCountDownTime {
         final long[] timeLeft = {HandlerTime.getInstance().getTime()}; //remaining time
         final boolean[] isStarted = {false}; // stop / start / resume
 
+        WorkTime workTime = new WorkTime(HandlerTime.getInstance().getTime());
+        HandlerDB.getInstance(root.getContext()).addWorkTime(workTime);
 
 //        set click listener
         mCvCountdownView.setOnClickListener(new View.OnClickListener() {
@@ -77,9 +81,7 @@ public class HandlerCountDownTime {
         mCvCountdownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
             @Override
             public void onEnd(CountdownView cv) {
-
-//                HandlerDB.getInstance().insertTime(HandlerTime.getInstance().getTime());
-
+                
             }
         });
     }

@@ -2,14 +2,19 @@ package com.application.care.model;
 
 import android.annotation.SuppressLint;
 
-public class WorkTime {
+import com.application.care.util.Settings;
 
-    @SuppressLint("SimpleDateFormat")
+public class WorkTime {
     private String date;
     private float time;
 
     public WorkTime() {
-        time = 0;
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public WorkTime(float time) {
+        this.time = time;
+        this.date = Settings.getCurrentDate();
     }
 
     public WorkTime(String date, float time) {
