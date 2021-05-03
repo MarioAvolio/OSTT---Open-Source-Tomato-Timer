@@ -42,7 +42,19 @@ public class HandlerProgressBar {
         numberProgressBar.setUnreachedBarColor(Color.parseColor(root.getResources().getString(thirdColor)));
     }
 
+    public int getProgress() {
+        return numberProgressBar.getProgress();
+    }
+
+    public void setPercent(int percent) {
+        numberProgressBar.setProgress(percent);
+    }
+
     public void setView(View root) {
+//
+//        if (this.root != null)
+//            return;
+
         this.root = root;
         numberProgressBar = root.findViewById(R.id.number_progress_bar);
         numberProgressBar.setMax(8);

@@ -35,7 +35,17 @@ public class HandlerCountDownTime {
         return mCvCountdownView.getRemainTime();
     }
 
+
+    public void setTime(long time) {
+        mCvCountdownView.start(time);
+    }
+
+
     public void setView(View root) {
+
+//        if (this.root != null)
+//            return;
+
         this.root = root;
 
 //        manage countdown time
@@ -54,7 +64,7 @@ public class HandlerCountDownTime {
                     mCvCountdownView.pause();
                     timeLeft[0] = mCvCountdownView.getRemainTime();
                 } else
-                    mCvCountdownView.start(timeLeft[0]); // Millisecond
+                    setTime(timeLeft[0]);
 
 
                 isStarted[0] = !isStarted[0];
