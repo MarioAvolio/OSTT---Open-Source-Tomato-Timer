@@ -58,7 +58,7 @@ public class HandlerProgressBar {
         this.root = root;
         numberProgressBar = root.findViewById(R.id.number_progress_bar);
         numberProgressBar.setMax(8);
-        numberProgressBar.setProgress(1);
+        numberProgressBar.setProgress(0);
         numberProgressBar.setReachedBarHeight(10);
         numberProgressBar.setPrefix("Goal ");
 

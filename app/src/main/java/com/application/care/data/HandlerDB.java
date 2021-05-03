@@ -14,6 +14,8 @@ import com.application.care.R;
 import com.application.care.model.WorkTime;
 import com.application.care.util.UtilDB;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class HandlerDB extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(@NotNull SQLiteDatabase db) {
         //SQL - Structured Query Language
         String CREATE_DATA_TIME_TABLE = "CREATE TABLE " + UtilDB.TABLE_DATA_TIME + "("
                 + UtilDB.KEY_DATE + " INTEGER PRIMARY KEY,"
@@ -44,7 +46,7 @@ public class HandlerDB extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(@NotNull SQLiteDatabase db, int oldVersion, int newVersion) {
         String DROP_TABLE = String.valueOf(R.string.drop);
         db.execSQL(DROP_TABLE, new String[]{UtilDB.DATABASE_NAME});
 
@@ -57,7 +59,7 @@ public class HandlerDB extends SQLiteOpenHelper {
 
      */
     //Add WorkTime
-    public void addWorkTime(WorkTime workTime) {
+    public void addWorkTime(@NotNull WorkTime workTime) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -73,18 +75,19 @@ public class HandlerDB extends SQLiteOpenHelper {
     }
 
     //Get a workTime
-    public WorkTime getWorkTime(int id) {
+    public WorkTime getWorkTime(String date) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         @SuppressLint("Recycle") Cursor cursor = db.query(UtilDB.TABLE_DATA_TIME,
-                new String[]{UtilDB.KEY_DATE, UtilDB.KEY_DATE, UtilDB.KEY_TIME},
-                UtilDB.KEY_DATE + "=?", new String[]{String.valueOf(id)},
+                new String[]{UtilDB.KEY_DATE, UtilDB.KEY_TIME},
+                UtilDB.KEY_DATE + "=?", new String[]{date},
                 null, null, null);
 
         if (cursor != null)
             cursor.moveToFirst();
 
-        return new WorkTime(cursor.getString(0), Integer.parseInt(cursor.getString(1)));
+        assert cursor != null;
+        return new WorkTime(cursor.getString(0), Float.parseFloat(cursor.getString(1)));
     }
 
     //Get all WorkTimes
@@ -95,18 +98,15 @@ public class HandlerDB extends SQLiteOpenHelper {
 
         //Select all workTimes
         String selectAll = "SELECT * FROM " + UtilDB.TABLE_DATA_TIME;
-        Cursor cursor = db.rawQuery(selectAll, null);
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery(selectAll, null);
 
         //Loop through our data
         if (cursor.moveToFirst()) {
             do {
-//                WorkTime workTime = new WorkTime("James", "213986");
-//                workTime.setId(Integer.parseInt(cursor.getString(0)));
-//                workTime.setName(cursor.getString(1));
-//                workTime.setPhoneNumber(cursor.getString(2));
+                WorkTime workTime = new WorkTime(cursor.getString(0), Integer.parseInt(cursor.getString(1)));
 
                 //add workTime objects to our list
-//                workTimeList.add(workTime);
+                workTimeList.add(workTime);
             } while (cursor.moveToNext());
         }
 
@@ -114,20 +114,19 @@ public class HandlerDB extends SQLiteOpenHelper {
     }
 
     //Update workTime
-    public int updateWorkTime(WorkTime workTime) {
+    public int updateWorkTime(@NotNull WorkTime workTime) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(UtilDB.KEY_TIME, workTime.getTime());
 
         //update the row
-        //update(tablename, values, where id = 43)
         return db.update(UtilDB.TABLE_DATA_TIME, values, UtilDB.KEY_DATE + "=?",
                 new String[]{String.valueOf(workTime.getDate())});
     }
 
     //Delete single workTime
-    public void deleteWorkTime(WorkTime workTime) {
+    public void deleteWorkTime(@NotNull WorkTime workTime) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(UtilDB.TABLE_DATA_TIME, UtilDB.KEY_DATE + "=?",
@@ -140,7 +139,7 @@ public class HandlerDB extends SQLiteOpenHelper {
     public int getCount() {
         String countQuery = "SELECT * FROM " + UtilDB.TABLE_DATA_TIME;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery(countQuery, null);
 
         return cursor.getCount();
 
