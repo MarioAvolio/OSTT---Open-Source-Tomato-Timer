@@ -3,25 +3,18 @@ package com.application.care.util;
 public class HandlerTime {
     private static HandlerTime instance;
     private final long oneMinute = 60000;
-    private long time;
 
-    private HandlerTime() {
-        time = 1;
-        setTime(time);
+    private HandlerTime( ) {
     }
 
-    public static HandlerTime getInstance() {
-        if (instance == null)
-            instance = new HandlerTime();
+    public static HandlerTime getInstance( ) {
+        if ( instance == null )
+            instance = new HandlerTime( );
 
         return instance;
     }
 
-    public long getTime() {
-        return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time * oneMinute;
+    public long getTime(long time) {
+        return time * oneMinute;
     }
 }

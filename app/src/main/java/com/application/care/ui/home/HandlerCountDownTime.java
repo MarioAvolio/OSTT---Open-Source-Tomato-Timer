@@ -1,13 +1,16 @@
 package com.application.care.ui.home;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
+import android.app.Activity;
 import android.view.View;
 
 import com.application.care.R;
 import com.application.care.data.HandlerDB;
 import com.application.care.model.WorkTime;
 import com.application.care.util.HandlerTime;
+import com.application.care.util.Settings;
+
+import org.jetbrains.annotations.NotNull;
 
 import cn.iwgang.countdownview.CountdownView;
 
@@ -30,43 +33,45 @@ public class HandlerCountDownTime {
         return instance;
     }
 
-    public long getRemainingTime() throws Exception {
-        if (root == null)
-            throw new Exception();
+    public long getRemainingTime( ) throws Exception {
+        if ( root == null )
+            throw new Exception( );
 
-        return mCvCountdownView.getRemainTime();
+        return mCvCountdownView.getRemainTime( );
     }
 
 
-    public void setTime(long time) {
-        mCvCountdownView.start(time);
+    public void setTime(float time) {
+        mCvCountdownView.start(( long ) time);
     }
 
 
-    public void setView(View root) {
+    public void setView(@NotNull View root, Activity activity) {
 
 //        if (this.root != null)
 //            return;
 
         this.root = root;
 
+
 //        manage countdown time
 
-        Log.d(TAG, "onCreateView TIME SEATED: " + HandlerTime.getInstance().getTime());
+//        Log.d(TAG, "onCreateView TIME SEATED: " + HandlerTime.getInstance().getTime());
         mCvCountdownView = root.findViewById(R.id.countDown);
-        final long[] timeLeft = {HandlerTime.getInstance().getTime()}; //remaining time
+
+
+        final long time = Settings.getWorkTime(activity);
+        final long[] timeLeft = {HandlerTime.getInstance( ).getTime(time)}; //remaining time
         final boolean[] isStarted = {false}; // stop / start / resume
 
-        WorkTime workTime = new WorkTime(HandlerTime.getInstance().getTime());
-        HandlerDB.getInstance(root.getContext()).addWorkTime(workTime);
 
 //        set click listener
-        mCvCountdownView.setOnClickListener(new View.OnClickListener() {
+        mCvCountdownView.setOnClickListener(new View.OnClickListener( ) {
             @Override
             public void onClick(View v) {
-                if (isStarted[0]) {
-                    mCvCountdownView.pause();
-                    timeLeft[0] = mCvCountdownView.getRemainTime();
+                if ( isStarted[0] ) {
+                    mCvCountdownView.pause( );
+                    timeLeft[0] = mCvCountdownView.getRemainTime( );
                 } else
                     setTime(timeLeft[0]);
 
@@ -81,7 +86,9 @@ public class HandlerCountDownTime {
         mCvCountdownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
             @Override
             public void onEnd(CountdownView cv) {
-                
+                WorkTime workTime = new WorkTime(cv.getDrawingTime( ));
+                HandlerDB.getInstance(root.getContext( )).increaseWorkTime(workTime);
+                HandlerProgressBar.getInstance( ).increase(( int ) cv.getDrawingTime( ));
             }
         });
     }

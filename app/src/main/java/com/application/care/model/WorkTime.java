@@ -30,11 +30,19 @@ public class WorkTime {
         this.date = date;
     }
 
-    public float getTime() {
+    public float getTime( ) {
         return time;
     }
 
     public void setTime(float time) {
         this.time = time;
+    }
+
+    @Override
+    public String toString( ) {
+        return "WorkTime{" +
+                "date='" + date + '\'' +
+                ", time=" + time +
+                '}';
     }
 }

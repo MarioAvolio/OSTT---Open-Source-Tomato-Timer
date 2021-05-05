@@ -24,16 +24,16 @@ public class HomeFragment extends Fragment {
     private Fragment myFragment;
 
     private void manageCountDownTime(View root) {
-        HandlerCountDownTime.getInstance().setView(root);
+        HandlerCountDownTime.getInstance( ).setView(root, getActivity( ));
     }
 
     private void manageProgressBar(View root) {
         HandlerProgressBar.getInstance().setView(root);
     }
 
-    private void restore(long remainingTime, int goalPercent) {
-        HandlerCountDownTime.getInstance().setTime(remainingTime);
-        HandlerProgressBar.getInstance().setPercent(goalPercent);
+    private void restore(float remainingTime, int goalPercent) {
+        HandlerCountDownTime.getInstance( ).setTime(remainingTime);
+        HandlerProgressBar.getInstance( ).setPercent(goalPercent);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -56,8 +56,8 @@ public class HomeFragment extends Fragment {
 
             homeViewModel = (HomeViewModel) home;
 
-            long remainingTime = (long) FragmentSaveStateManager.getInstance().getFragmentState(REMAINING_TIME);
-            int goalPercent = (int) FragmentSaveStateManager.getInstance().getFragmentState(GOAL_PERCENT);
+            float remainingTime = ( float ) FragmentSaveStateManager.getInstance( ).getFragmentState(REMAINING_TIME);
+            int goalPercent = ( int ) FragmentSaveStateManager.getInstance( ).getFragmentState(GOAL_PERCENT);
 
             // Restore value of members from saved state
             restore(remainingTime, goalPercent);
