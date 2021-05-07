@@ -55,8 +55,13 @@ public class HomeFragment extends Fragment {
 
             homeViewModel = (HomeViewModel) home;
 
-            float remainingTime = ( float ) FragmentSaveStateManager.getInstance( ).getFragmentState(REMAINING_TIME);
-            int goalPercent = ( int ) FragmentSaveStateManager.getInstance( ).getFragmentState(GOAL_PERCENT);
+            Object o = FragmentSaveStateManager.getInstance().getFragmentState(REMAINING_TIME);
+            Long l = null;
+            if (o instanceof Long) {
+                l = (long) o;
+            }
+            float remainingTime = l.floatValue();
+            int goalPercent = (int) FragmentSaveStateManager.getInstance().getFragmentState(GOAL_PERCENT);
 
             // Restore value of members from saved state
             restore(remainingTime, goalPercent);

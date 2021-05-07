@@ -1,68 +1,125 @@
 package com.application.care;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ImageSpan;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
+import com.application.care.ui.gallery.GalleryFragment;
+import com.application.care.ui.home.HomeFragment;
+import com.application.care.ui.slideshow.SlideshowFragment;
+import com.google.android.material.tabs.TabLayout;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String HOME = "HOME";
     private AppBarConfiguration mAppBarConfiguration;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        tabLayout = findViewById(R.id.tab_layout);
+        viewPager = findViewById(R.id.view_pager);
+
+//      initialize array list
+//        ArrayList<String> arrayList = new ArrayList<>();
+//        arrayList.add("Home");
+//        arrayList.add("Settings");
+//        arrayList.add("Statistics");
+
+        Map<String, String> stringMap = new HashMap<>();
+        tabLayout.setupWithViewPager(viewPager);
+
+        prepareViewPager(viewPager);
 
         Toast.makeText(MainActivity.this, "Click the countdown to start", Toast.LENGTH_LONG).show();
 
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setDrawerLayout(drawer)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    private void addFragment(@NotNull Fragment fragment, @NotNull MainAdapter adapter, String name) {
+        Bundle bundle = new Bundle();
+        bundle.putString("title", name);
+        fragment.setArguments(bundle);
+        adapter.addFragment(fragment, name);
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+    private void prepareViewPager(@NotNull ViewPager viewPager) {
+        MainAdapter adapter = new MainAdapter(getSupportFragmentManager());
+
+
+        addFragment(new HomeFragment(), adapter, "Home");
+        addFragment(new SlideshowFragment(), adapter, "Settings");
+        addFragment(new GalleryFragment(), adapter, "Statistics");
+
+
+        viewPager.setAdapter(adapter);
+    }
+
+    private class MainAdapter extends FragmentPagerAdapter {
+
+        ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+        ArrayList<String> stringArrayList = new ArrayList<>();
+        int[] imageList = {R.drawable.ic_baseline_home_24, R.drawable.ic_baseline_settings_24,
+                R.drawable.ic_baseline_access_time_24};
+
+        public MainAdapter(@NonNull @NotNull FragmentManager fm) {
+            super(fm);
+        }
+
+        public void addFragment(Fragment fragment, String s) {
+            fragmentArrayList.add(fragment);
+            stringArrayList.add(s);
+        }
+
+        @NonNull
+        @NotNull
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentArrayList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentArrayList.size();
+        }
+
+        public CharSequence getPageTitle(int position) {
+            Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),
+                    imageList[position]);
+
+//            set bound
+
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
+                    drawable.getIntrinsicHeight());
+
+            SpannableString spannableString = new SpannableString("     " + stringArrayList.get(position));
+
+            ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
+
+            spannableString.setSpan(imageSpan, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            return spannableString;
+        }
+
     }
 }
