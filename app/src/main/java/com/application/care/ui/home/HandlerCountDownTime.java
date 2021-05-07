@@ -65,9 +65,8 @@ public class HandlerCountDownTime {
         final long[] timeLeft = {HandlerTime.getInstance().getTime(time)}; //remaining time
         final boolean[] isStarted = {false}; // stop / start / resume
 
-//
-//        int max = 8;
-//        HandlerProgressBar.getInstance().setMax(max);
+
+        HandlerProgressBar.getInstance().setMax(8);
 //        set click listener
         mCvCountdownView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,8 +89,8 @@ public class HandlerCountDownTime {
             @Override
             public void onEnd(CountdownView cv) {
                 WorkTime workTime = new WorkTime(cv.getDrawingTime( ));
-                HandlerDB.getInstance(root.getContext( )).increaseWorkTime(workTime);
-                HandlerProgressBar.getInstance( ).increase(( int ) cv.getDrawingTime( ));
+                HandlerDB.getInstance(root.getContext()).increaseWorkTime(workTime);
+                HandlerProgressBar.getInstance().increase(1); //TODO
             }
         });
     }

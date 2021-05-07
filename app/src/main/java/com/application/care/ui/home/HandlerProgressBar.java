@@ -2,6 +2,7 @@ package com.application.care.ui.home;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import static com.application.care.R.color.thirdColor;
 
 public class HandlerProgressBar {
 
+    private static final String TAG = "HandlerProgressBar";
     @SuppressLint("StaticFieldLeak")
     private static HandlerProgressBar instance;
     private View root;
@@ -31,9 +33,12 @@ public class HandlerProgressBar {
 
     public void setMax(int max) {
         numberProgressBar.setMax(max);
+        Log.d(TAG, "setMax of " + max);
+
     }
 
     public void increase(int update) {
+        Log.d(TAG, "increse of " + update);
         numberProgressBar.incrementProgressBy(update);
     }
 
@@ -49,6 +54,7 @@ public class HandlerProgressBar {
     }
 
     public void setPercent(int percent) {
+        Log.d(TAG, "setPercent of " + percent);
         numberProgressBar.setProgress(percent);
     }
 

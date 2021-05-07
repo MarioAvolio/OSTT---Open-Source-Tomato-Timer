@@ -45,9 +45,8 @@ public class HomeFragment extends Fragment {
         ViewModel home = (ViewModel) FragmentSaveStateManager.getInstance().getFragmentState(FRAGMENT_NAME);
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        manageCountDownTime(root);
         manageProgressBar(root);
-
+        manageCountDownTime(root);
 
         /*IF CHANGE FRAGMENT*/
 

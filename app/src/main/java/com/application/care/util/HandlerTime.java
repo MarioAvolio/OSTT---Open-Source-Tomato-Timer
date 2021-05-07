@@ -7,14 +7,18 @@ public class HandlerTime {
     private HandlerTime( ) {
     }
 
-    public static HandlerTime getInstance( ) {
-        if ( instance == null )
-            instance = new HandlerTime( );
+    public static HandlerTime getInstance() {
+        if (instance == null)
+            instance = new HandlerTime();
 
         return instance;
     }
 
     public long getTime(long time) {
         return time * oneMinute;
+    }
+
+    public long getRealTime(long countDownTime) {
+        return countDownTime / oneMinute;
     }
 }
