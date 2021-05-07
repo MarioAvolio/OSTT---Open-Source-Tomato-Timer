@@ -59,19 +59,22 @@ public class HandlerCountDownTime {
 //        Log.d(TAG, "onCreateView TIME SEATED: " + HandlerTime.getInstance().getTime());
         mCvCountdownView = root.findViewById(R.id.countDown);
 
-
+//        HandlerDB.getInstance(root.getContext()).addWorkTime(new WorkTime(100));
+//        Log.d(TAG, "onCreateView List: " + HandlerDB.getInstance(root.getContext()).getAllWorkTimes());
         final long time = Settings.getWorkTime(activity);
-        final long[] timeLeft = {HandlerTime.getInstance( ).getTime(time)}; //remaining time
+        final long[] timeLeft = {HandlerTime.getInstance().getTime(time)}; //remaining time
         final boolean[] isStarted = {false}; // stop / start / resume
 
-
+//
+//        int max = 8;
+//        HandlerProgressBar.getInstance().setMax(max);
 //        set click listener
-        mCvCountdownView.setOnClickListener(new View.OnClickListener( ) {
+        mCvCountdownView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ( isStarted[0] ) {
-                    mCvCountdownView.pause( );
-                    timeLeft[0] = mCvCountdownView.getRemainTime( );
+                if (isStarted[0]) {
+                    mCvCountdownView.pause();
+                    timeLeft[0] = mCvCountdownView.getRemainTime();
                 } else
                     setTime(timeLeft[0]);
 

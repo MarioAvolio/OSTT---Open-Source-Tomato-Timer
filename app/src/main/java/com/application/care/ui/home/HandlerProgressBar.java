@@ -9,6 +9,8 @@ import com.application.care.R;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.daimajia.numberprogressbar.OnProgressBarListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import static com.application.care.R.color.thirdColor;
 
 public class HandlerProgressBar {
@@ -50,7 +52,7 @@ public class HandlerProgressBar {
         numberProgressBar.setProgress(percent);
     }
 
-    public void setView(View root) {
+    public void setView(@NotNull View root) {
 //
 //        if (this.root != null)
 //            return;

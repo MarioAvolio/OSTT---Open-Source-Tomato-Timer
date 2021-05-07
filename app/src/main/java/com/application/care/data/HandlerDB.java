@@ -88,7 +88,7 @@ public class HandlerDB extends SQLiteOpenHelper {
 
     //Get a workTime
     public WorkTime getWorkTime(String date) throws SQLException {
-        SQLiteDatabase db = this.getReadableDatabase( );
+        SQLiteDatabase db = this.getReadableDatabase();
 
         @SuppressLint("Recycle") Cursor cursor = db.query(UtilDB.TABLE_DATA_TIME,
                 new String[]{UtilDB.KEY_DATE, UtilDB.KEY_TIME},
@@ -96,8 +96,11 @@ public class HandlerDB extends SQLiteOpenHelper {
                 null, null, null);
 
 
-        if ( !( cursor != null && cursor.moveToFirst( ) ) )
-            throw new SQLException( );
+        if (cursor == null)
+            throw new SQLException("cursor == null");
+        else if (!cursor.moveToFirst())
+            throw new SQLException("!cursor.moveToFirst( )");
+
 
         Log.d(TAG, "getWorkTime item get -> " + cursor.getString(0));
         Log.d(TAG, "getWorkTime item get -> " + cursor.getFloat(1));
@@ -105,7 +108,7 @@ public class HandlerDB extends SQLiteOpenHelper {
 
         WorkTime workTime = new WorkTime(cursor.getString(0), cursor.getFloat(1));
 
-        Log.d(TAG, "getWorkTime item get -> " + workTime.toString( ));
+        Log.d(TAG, "getWorkTime item get -> " + workTime.toString());
         return workTime;
     }
 
@@ -121,7 +124,7 @@ public class HandlerDB extends SQLiteOpenHelper {
 
 
         Log.d(TAG, "thereIsADate " + date + " --> " + ( cursor != null ));
-        return cursor != null;
+        return cursor != null && cursor.moveToNext();
     }
 
     //Get all WorkTimes
@@ -137,7 +140,7 @@ public class HandlerDB extends SQLiteOpenHelper {
         //Loop through our data
         if (cursor.moveToFirst()) {
             do {
-                WorkTime workTime = new WorkTime(cursor.getString(0), cursor.getFloat(1));
+                WorkTime workTime = new WorkTime(cursor.getString(0), Float.parseFloat(cursor.getString(1)));
 
                 //add workTime objects to our list
                 workTimeList.add(workTime);
@@ -177,6 +180,8 @@ public class HandlerDB extends SQLiteOpenHelper {
 //        if there isn't a worktime with a custom date, it will add this.
         if ( !thereIsADate(workTime.getDate( )) ) {
             addWorkTime(workTime);
+            Log.d(TAG, "increaseWorkTime " + workTime.toString() + "pass to addWorkTime");
+
             return UPDATE_WORK_TIME;
         }
 
@@ -185,8 +190,10 @@ public class HandlerDB extends SQLiteOpenHelper {
         ContentValues values = new ContentValues( );
 
         try {
-            WorkTime oldWorkTime = getWorkTime(workTime.getDate( ));
-            values.put(UtilDB.KEY_TIME, workTime.getTime( ) + oldWorkTime.getTime( ));
+            WorkTime oldWorkTime = getWorkTime(workTime.getDate());
+            Log.d(TAG, "increaseWorkTime  OLD -> " + oldWorkTime.toString());
+
+            values.put(UtilDB.KEY_TIME, workTime.getTime() + oldWorkTime.getTime());
         } catch (Exception e) {
             e.printStackTrace( );
         }
