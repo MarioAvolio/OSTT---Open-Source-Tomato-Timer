@@ -25,6 +25,7 @@ public class HandlerDB extends SQLiteOpenHelper {
     private static final String TAG = "HandlerDB";
     private static final int UPDATE_WORK_TIME = 1;
     private static HandlerDB instance;
+    private static Context context;
 
     public HandlerDB(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -35,6 +36,20 @@ public class HandlerDB extends SQLiteOpenHelper {
         if (instance == null)
             instance = new HandlerDB(context, UtilDB.DATABASE_NAME, null, UtilDB.DATABASE_VERSION);
         return instance;
+    }
+
+    public static HandlerDB getInstance() throws Exception {
+
+        if (context == null)
+            throw new Exception("Context is null.");
+
+        if (instance == null)
+            instance = new HandlerDB(context, UtilDB.DATABASE_NAME, null, UtilDB.DATABASE_VERSION);
+        return instance;
+    }
+
+    public static void setContext(Context context) {
+        HandlerDB.context = context;
     }
 
     @Override

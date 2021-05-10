@@ -19,6 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.application.care.ui.gallery.GalleryFragment;
 import com.application.care.ui.home.HomeFragment;
 import com.application.care.ui.slideshow.SlideshowFragment;
+import com.application.care.util.HandlerSharedPreferences;
 import com.google.android.material.tabs.TabLayout;
 
 import org.jetbrains.annotations.NotNull;
@@ -38,14 +39,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        init HandlerSharedPreferences
+        HandlerSharedPreferences.getInstance().setActivity(MainActivity.this);
+
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);
 
-//      initialize array list
-//        ArrayList<String> arrayList = new ArrayList<>();
-//        arrayList.add("Home");
-//        arrayList.add("Settings");
-//        arrayList.add("Statistics");
 
         Map<String, String> stringMap = new HashMap<>();
         tabLayout.setupWithViewPager(viewPager);

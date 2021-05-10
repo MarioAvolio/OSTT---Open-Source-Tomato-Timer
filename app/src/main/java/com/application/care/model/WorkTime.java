@@ -2,19 +2,29 @@ package com.application.care.model;
 
 import android.annotation.SuppressLint;
 
-import com.application.care.util.Settings;
+import org.jetbrains.annotations.NotNull;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class WorkTime {
     private String date;
     private float time;
 
-    public WorkTime() {
-    }
-
     @SuppressLint("SimpleDateFormat")
     public WorkTime(float time) {
         this.time = time;
-        this.date = Settings.getCurrentDate();
+        this.date = getCurrentDate();
+    }
+
+    public WorkTime() {
+    }
+
+    @NotNull
+    private String getCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        return dateFormat.format(calendar.getTime());
     }
 
     public WorkTime(String date, float time) {
