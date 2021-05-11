@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.application.care.R;
 import com.application.care.ui.FragmentSaveStateManager;
+import com.application.care.util.HandlerColor;
 
 public class HomeFragment extends Fragment {
 
@@ -45,6 +46,8 @@ public class HomeFragment extends Fragment {
         ViewModel home = (ViewModel) FragmentSaveStateManager.getInstance().getFragmentState(FRAGMENT_NAME);
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        HandlerColor.setView(root); //set view on HandlerColor to change color of background
+
         manageProgressBar(root);
         manageCountDownTime(root);
 

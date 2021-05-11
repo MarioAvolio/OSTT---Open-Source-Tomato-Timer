@@ -32,7 +32,7 @@ public class WorkState extends State {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        HandlerProgressBar.getInstance().increase(1); //TODO
+        HandlerProgressBar.getInstance().increase(1);
 
         state = new BreakState(mCvCountdownView);
         state.start();

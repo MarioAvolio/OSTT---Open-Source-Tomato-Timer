@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.application.care.ui.gallery.GalleryFragment;
 import com.application.care.ui.home.HomeFragment;
 import com.application.care.ui.slideshow.SlideshowFragment;
+import com.application.care.util.HandlerAlert;
 import com.application.care.util.HandlerSharedPreferences;
 import com.google.android.material.tabs.TabLayout;
 
@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
 //        init HandlerSharedPreferences
         HandlerSharedPreferences.getInstance().setActivity(MainActivity.this);
 
+//        init HandlerAlert
+        HandlerAlert.setContext(MainActivity.this);
+
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);
 
@@ -52,8 +55,11 @@ public class MainActivity extends AppCompatActivity {
 
         prepareViewPager(viewPager);
 
-        Toast.makeText(MainActivity.this, "Click the countdown to start", Toast.LENGTH_LONG).show();
-
+        try {
+            HandlerAlert.getInstance().showToast("Click the countdown to start");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void addFragment(@NotNull Fragment fragment, @NotNull MainAdapter adapter, String name) {

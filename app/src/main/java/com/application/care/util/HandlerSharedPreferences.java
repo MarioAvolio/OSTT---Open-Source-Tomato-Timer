@@ -15,7 +15,7 @@ public class HandlerSharedPreferences {
     private final String WORK_ID = "time";
     private final String BREAK_ID = "break";
     private final long DEFAULT_VALUE_WORK = 1;
-    private final long DEFAULT_VALUE_BREAK = 5;
+    private final long DEFAULT_VALUE_BREAK = 1;
     private Context context;
     private Activity activity;
 
