@@ -42,7 +42,7 @@ public class HandlerProgressBar {
 
     @SuppressLint("ResourceType")
     private void setColor() throws Exception {
-        numberProgressBar.setProgressTextColor(HandlerColor.getInstance().getColorFromColorString(R.color.firstColor));
+        numberProgressBar.setProgressTextColor(HandlerColor.getInstance().getColorFromColorString(R.color.thirdColor));
         numberProgressBar.setReachedBarColor(HandlerColor.getInstance().getColorFromColorString(R.color.firstColor));
         numberProgressBar.setUnreachedBarColor(HandlerColor.getInstance().getColorFromColorString(R.color.thirdColor));
     }
@@ -62,7 +62,7 @@ public class HandlerProgressBar {
         numberProgressBar.setMax(8);
         numberProgressBar.setProgress(0);
         numberProgressBar.setReachedBarHeight(10);
-        numberProgressBar.setPrefix("Goal ");
+        numberProgressBar.setProgressTextSize(50);
 
         try {
             setColor(); // set color bar

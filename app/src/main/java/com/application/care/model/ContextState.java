@@ -1,14 +1,16 @@
 package com.application.care.model;
 
+import android.util.Log;
 import android.view.View;
 
 import cn.iwgang.countdownview.CountdownView;
 
 public class ContextState {
-    private State state;
+    private static final String TAG = "ContextState";
+    private static State state;
 
     public ContextState(CountdownView mCvCountdownView) {
-        this.state = new WorkState(mCvCountdownView);
+        state = new WorkState(mCvCountdownView);
 
         final boolean[] isStarted = {false}; // pause / resume
 //        set click listener
@@ -33,15 +35,16 @@ public class ContextState {
         });
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public static void setState(State state) {
+        state = state;
     }
 
     public void start() {
-        state.start();
+        state.start(state);
     }
 
     public void stop() {
+        Log.d(TAG, state.toString());
         state.stop(state);
     }
 

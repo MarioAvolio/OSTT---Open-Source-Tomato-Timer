@@ -7,6 +7,7 @@ import android.view.View;
 import com.application.care.R;
 import com.application.care.data.HandlerDB;
 import com.application.care.model.ContextState;
+import com.application.care.model.StateFlyweightFactory;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -47,9 +48,16 @@ public class HandlerCountDownTime {
     public void setView(@NotNull View root, Activity activity) {
         this.root = root;
 
+//        init StateFlyweightFactory
+        StateFlyweightFactory.setCountDownView(mCvCountdownView);
+
 //        Log.d(TAG, "onCreateView TIME SEATED: " + HandlerTime.getInstance().getTime());
         mCvCountdownView = root.findViewById(R.id.countDown);
+
+//        init HandlerDB
         HandlerDB.setContext(root.getContext());
+
+
         ContextState contextState = new ContextState(mCvCountdownView);
 
 //        HandlerDB.getInstance(root.getContext()).addWorkTime(new WorkTime(100));

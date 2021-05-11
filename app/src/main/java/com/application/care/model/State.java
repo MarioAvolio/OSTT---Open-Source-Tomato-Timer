@@ -16,13 +16,13 @@ public abstract class State {
         this.mCvCountdownView = mCvCountdownView;
     }
 
-    public abstract void start();
+    public abstract void start(State state);
 
     public abstract void stop(State state);
 
     public final void resume(State state) {
         if (remainTime == -1)
-            state.start();
+            state.start(state);
         else {
             mCvCountdownView.start(remainTime);
             Log.d(TAG, "I AM IN RESUME.");
