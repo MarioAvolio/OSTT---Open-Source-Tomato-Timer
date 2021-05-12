@@ -48,11 +48,12 @@ public class HandlerCountDownTime {
     public void setView(@NotNull View root, Activity activity) {
         this.root = root;
 
-//        init StateFlyweightFactory
-        StateFlyweightFactory.setCountDownView(mCvCountdownView);
 
 //        Log.d(TAG, "onCreateView TIME SEATED: " + HandlerTime.getInstance().getTime());
         mCvCountdownView = root.findViewById(R.id.countDown);
+
+//        init StateFlyweightFactory
+        StateFlyweightFactory.setCountDownView(mCvCountdownView);
 
 //        init HandlerDB
         HandlerDB.setContext(root.getContext());

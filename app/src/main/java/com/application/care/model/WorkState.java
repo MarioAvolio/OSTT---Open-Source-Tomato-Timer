@@ -22,7 +22,7 @@ public class WorkState extends State {
     }
 
     @Override
-    public void start(State state) {
+    public void start() {
 
         try {
             HandlerAlert.getInstance().showToast("Start Work");
@@ -35,7 +35,7 @@ public class WorkState extends State {
     }
 
     @Override
-    public void stop(State state) {
+    public void stop() {
         Log.d(WORK_STATE, "I AM IN STOP.");
 
         WorkTime workTime = new WorkTime(mCvCountdownView.getDrawingTime());
@@ -43,13 +43,15 @@ public class WorkState extends State {
             HandlerDB.getInstance().increaseWorkTime(workTime);
 
             // change state
-            ContextState.setState(StateFlyweightFactory.getInstance().getState(BreakState.BREAK_STATE));
+            State nextState = StateFlyweightFactory.getInstance().getState(BreakState.BREAK_STATE);
+            Log.d(WORK_STATE, "Next State -> " + nextState.toString());
+            ContextState.setState(nextState);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         HandlerProgressBar.getInstance().increase(1);
-        state.start(state);
+        ContextState.getState().start();
     }
 
     @NonNull

@@ -24,7 +24,7 @@ public class BreakState extends State {
 
     @SuppressLint("ResourceAsColor")
     @Override
-    public void start(State state) {
+    public void start() {
         Log.d(BREAK_STATE, "I AM IN START.");
 
         try {
@@ -37,19 +37,22 @@ public class BreakState extends State {
     }
 
     @Override
-    public void stop(State state) {
+    public void stop() {
         Log.d(BREAK_STATE, "I AM IN STOP.");
 
         try {
             HandlerColor.getInstance().changeBackgroundColor(R.color.fourthColor);
+
             // change state
-            ContextState.setState(StateFlyweightFactory.getInstance().getState(WorkState.WORK_STATE));
+            State nextState = StateFlyweightFactory.getInstance().getState(WorkState.WORK_STATE);
+            Log.d(BREAK_STATE, "Next State -> " + nextState.toString());
+            ContextState.setState(nextState);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        state.start(state);
+        ContextState.getState().start();
     }
 
     @NonNull

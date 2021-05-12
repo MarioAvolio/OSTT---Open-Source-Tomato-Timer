@@ -21,7 +21,7 @@ public class StateFlyweightFactory { // FlyweightFactory
     public static StateFlyweightFactory getInstance() throws Exception {
 
         if (countdownView == null)
-            throw new Exception("countdownView == null"); // TODO
+            throw new Exception("countdownView == null");
 
         if (instance == null)
             instance = new StateFlyweightFactory();

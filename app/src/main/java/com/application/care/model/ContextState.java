@@ -35,21 +35,25 @@ public class ContextState {
         });
     }
 
-    public static void setState(State state) {
-        state = state;
+    public static State getState() {
+        return state;
+    }
+
+    public static void setState(State nextState) {
+        state = nextState;
     }
 
     public void start() {
-        state.start(state);
+        state.start();
     }
 
     public void stop() {
         Log.d(TAG, state.toString());
-        state.stop(state);
+        state.stop();
     }
 
     public void resume() {
-        state.resume(state);
+        state.resume();
     }
 
     public final void pause() {
