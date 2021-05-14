@@ -15,8 +15,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.viewpager.widget.ViewPager;
 
-import com.application.care.ui.gallery.GalleryFragment;
 import com.application.care.ui.home.HomeFragment;
+import com.application.care.ui.settings.SettingsFragment;
 import com.application.care.ui.slideshow.SlideshowFragment;
 import com.application.care.util.HandlerAlert;
 import com.application.care.util.HandlerSharedPreferences;
@@ -74,9 +74,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         addFragment(new HomeFragment(), adapter, "Home");
-        addFragment(new SlideshowFragment(), adapter, "Settings");
-        addFragment(new GalleryFragment(), adapter, "Statistics");
-
+        addFragment(new SettingsFragment(), adapter, "Settings");
+        addFragment(new SlideshowFragment(), adapter, "Statistics");
 
         viewPager.setAdapter(adapter);
     }
