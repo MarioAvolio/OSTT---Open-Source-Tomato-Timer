@@ -13,4 +13,11 @@
     <color name="thirdColor">#52616b</color>
     <color name="fourthColor">#1e2022</color>
 
+    <color name="color_blue">#f0f5f9</color>
+    <color name="color_gray">#FF018786</color>
+    <color name="color_green">#52616b</color>
+    <color name="colorAccent">#FF6200EE</color>
+    <color name="color_pink">#FF3700B3</color>
+
+
 </resources>
