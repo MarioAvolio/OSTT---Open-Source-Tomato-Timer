@@ -13,6 +13,7 @@ import com.warkiz.widget.IndicatorSeekBar;
 
 public class SettingsFragment extends Fragment {
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -20,27 +21,18 @@ public class SettingsFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
 
-
         IndicatorSeekBar seekBar = null;
-        IndicatorSeekBar.with(getContext());
+        IndicatorSeekBar.with(requireContext());
         try {
             seekBar.setIndicatorTextFormat("${PROGRESS} %");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-//        seekBar.customSectionTrackColor(new ColorCollector() {
-//            @Override
-//            public boolean collectSectionTrackColor(int[] colorIntArr) {
-//                //the length of colorIntArray equals section count
-//                colorIntArr[0] = HandlerColor.getInstance().getColorFromColorString(R.color.color_blue);
-//                colorIntArr[1] = HandlerColor.getInstance().getColorFromColorString(R.color.color_gray);
-//                colorIntArr[2] = Color.parseColor("#FF4081");
-//                return true; //True if apply color , otherwise no change
-//            }
-//        });
-
-
         return root;
+    }
+
+    private void saveSettings(String id, ViewGroup containter) {
+        IndicatorSeekBar indicatorSeekBar = containter.findViewById(R.)
     }
 }

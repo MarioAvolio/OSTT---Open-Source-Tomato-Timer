@@ -13,5 +13,6 @@
     <string name="drop">DROP TABLE IF EXISTS</string>
     <string name="break_time">Break Time</string>
     <string name="work_time">Work Time</string>
+    <string name="long_break_time">Long Break Time</string>
 
 </resources>
