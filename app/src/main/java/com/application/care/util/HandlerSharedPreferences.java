@@ -14,8 +14,10 @@ public class HandlerSharedPreferences {
     private static HandlerSharedPreferences instance;
     private final String WORK_ID = "time";
     private final String BREAK_ID = "break";
+    private final String LONG_BREAK_ID = "long break";
     private final long DEFAULT_VALUE_WORK = 1;
     private final long DEFAULT_VALUE_BREAK = 1;
+    private final long DEFAULT_VALUE_LONG_BREAK = 1;
     private Context context;
     private Activity activity;
 
@@ -58,6 +60,18 @@ public class HandlerSharedPreferences {
     public void setBreakTime(long time) {
         SharedPreferences.Editor editor = getEditor(context, BREAK_ID);
         editor.putLong(BREAK_ID, time);
+        editor.apply(); //saving to disk
+    }
+
+
+    public long getLongBreakTime() {
+        SharedPreferences getShareData = activity.getPreferences(Context.MODE_PRIVATE);
+        return HandlerTime.getInstance().getTime(getShareData.getLong(LONG_BREAK_ID, DEFAULT_VALUE_LONG_BREAK));
+    }
+
+    public void setLongBreakTime(long time) {
+        SharedPreferences.Editor editor = getEditor(context, LONG_BREAK_ID);
+        editor.putLong(LONG_BREAK_ID, time);
         editor.apply(); //saving to disk
     }
 }

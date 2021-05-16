@@ -1,46 +1,73 @@
 package com.application.care.model;
 
 import android.annotation.SuppressLint;
-import android.view.ViewGroup;
+import android.util.Log;
+import android.view.View;
 
 import com.application.care.R;
 import com.warkiz.widget.IndicatorSeekBar;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SeekBarFactory {
+    private static final String TAG = "SeekBarFactory";
     @SuppressLint("StaticFieldLeak")
     private static SeekBarFactory instance;
     @SuppressLint("StaticFieldLeak")
-    private static ViewGroup container;
+    private static View view;
+    private final Map<Integer, IndicatorSeekBar> integerIndicatorSeekBarMap;
 
     private SeekBarFactory() {
+        integerIndicatorSeekBarMap = new HashMap<>();
     }
 
-    public static void setContext(ViewGroup container) {
-        SeekBarFactory.container = container;
+    public static void setView(View view) {
+        SeekBarFactory.view = view;
     }
 
     public static SeekBarFactory getInstance() throws Exception {
 
-        if (container == null)
-            throw new Exception("container == null");
+        if (view == null)
+            throw new Exception("view == null");
 
         if (instance == null)
             instance = new SeekBarFactory();
         return instance;
     }
 
-    public IndicatorSeekBar getSeekBar(int type) {
-        switch (type) {
-            case R.id.work_time:
-                return
-            break;
+    @SuppressLint("NonConstantResourceId")
+    public IndicatorSeekBar getSeekBar(int type) throws Exception {
 
-            case R.id.break_time:
-                break;
+        Log.d(TAG, "getSeekBar: " + type);
+        if (integerIndicatorSeekBarMap.containsKey(type)) {
+            return integerIndicatorSeekBarMap.get(type);
+        } else {
+            IndicatorSeekBar indicatorSeekBar = null;
+            switch (type) {
+                case R.id.work_time:
+                    indicatorSeekBar = view.findViewById(R.id.work_time);
+                    indicatorSeekBar.setOnSeekChangeListener(new WorkSeekBar());
+                    break;
 
-            case R.id.long_break_time:
-                break;
+                case R.id.break_time:
+                    indicatorSeekBar = view.findViewById(R.id.break_time);
+                    indicatorSeekBar.setOnSeekChangeListener(new BreakSeekBar());
+                    break;
 
+                case R.id.long_break_time:
+                    indicatorSeekBar = view.findViewById(R.id.long_break_time);
+                    indicatorSeekBar.setOnSeekChangeListener(new LongBreakSeekBar());
+                    break;
+
+                default:
+                    throw new Exception("type is not identified");
+
+            }
+
+            integerIndicatorSeekBarMap.put(type, indicatorSeekBar);
+            return indicatorSeekBar;
         }
+
     }
 }

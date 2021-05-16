@@ -31,6 +31,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private static final String HOME = "HOME";
+    private static final String TAG = "MainActivity";
     private AppBarConfiguration mAppBarConfiguration;
     private TabLayout tabLayout;
     private ViewPager viewPager;

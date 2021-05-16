@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         app:isb_indicator_text_color="@color/fourthColor"
         app:isb_max="60"
-        app:isb_min="0"
+        app:isb_min="1"
         app:isb_only_thumb_draggable="false"
         app:isb_progress="25"
         app:isb_seek_smoothly="true"
