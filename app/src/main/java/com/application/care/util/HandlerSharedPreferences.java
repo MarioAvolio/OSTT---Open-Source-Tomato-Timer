@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
 public class HandlerSharedPreferences {
 
 
+    private static final String TAG = "HandlerSharedPreferences";
     @SuppressLint("StaticFieldLeak")
     private static HandlerSharedPreferences instance;
     private final String WORK_ID = "time";
@@ -36,29 +38,33 @@ public class HandlerSharedPreferences {
         this.context = activity.getApplicationContext();
     }
 
-    private SharedPreferences.Editor getEditor(@NotNull Context context, String ID) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(ID, Context.MODE_PRIVATE);
-        return sharedPreferences.edit();
-    }
-
     public long getWorkTime() {
+
         SharedPreferences getShareData = activity.getPreferences(Context.MODE_PRIVATE);
+        Log.d(TAG, "getWorkTime: " + HandlerTime.getInstance().getTime(getShareData.getLong(WORK_ID, DEFAULT_VALUE_WORK)));
         return HandlerTime.getInstance().getTime(getShareData.getLong(WORK_ID, DEFAULT_VALUE_WORK));
     }
 
     public void setWorkTime(long time) {
-        SharedPreferences.Editor editor = getEditor(context, WORK_ID);
+
+        Log.d(TAG, "setWorkTime: " + time);
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
         editor.putLong(WORK_ID, time);
         editor.apply(); //saving to disk
+
     }
 
     public long getBreakTime() {
         SharedPreferences getShareData = activity.getPreferences(Context.MODE_PRIVATE);
+        Log.d(TAG, "getBreakTime: " + HandlerTime.getInstance().getTime(getShareData.getLong(BREAK_ID, DEFAULT_VALUE_BREAK)));
         return HandlerTime.getInstance().getTime(getShareData.getLong(BREAK_ID, DEFAULT_VALUE_BREAK));
     }
 
     public void setBreakTime(long time) {
-        SharedPreferences.Editor editor = getEditor(context, BREAK_ID);
+        Log.d(TAG, "setBreakTime: " + time);
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
         editor.putLong(BREAK_ID, time);
         editor.apply(); //saving to disk
     }
@@ -66,11 +72,14 @@ public class HandlerSharedPreferences {
 
     public long getLongBreakTime() {
         SharedPreferences getShareData = activity.getPreferences(Context.MODE_PRIVATE);
+        Log.d(TAG, "getLongBreakTime: " + HandlerTime.getInstance().getTime(getShareData.getLong(LONG_BREAK_ID, DEFAULT_VALUE_LONG_BREAK)));
         return HandlerTime.getInstance().getTime(getShareData.getLong(LONG_BREAK_ID, DEFAULT_VALUE_LONG_BREAK));
     }
 
     public void setLongBreakTime(long time) {
-        SharedPreferences.Editor editor = getEditor(context, LONG_BREAK_ID);
+        Log.d(TAG, "setLongBreakTime: " + time);
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
         editor.putLong(LONG_BREAK_ID, time);
         editor.apply(); //saving to disk
     }

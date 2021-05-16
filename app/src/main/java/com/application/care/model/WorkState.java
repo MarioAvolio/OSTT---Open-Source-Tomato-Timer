@@ -15,7 +15,7 @@ import cn.iwgang.countdownview.CountdownView;
 
 public class WorkState extends State {
 
-    public static final String WORK_STATE = "WORK STATE";
+    public static final String WORK_STATE = "WorkState";
 
     public WorkState(CountdownView mCvCountdownView) {
         super(mCvCountdownView);
@@ -26,12 +26,11 @@ public class WorkState extends State {
 
         try {
             HandlerAlert.getInstance().showToast("Start Work");
+            Log.d(WORK_STATE, "start: " + HandlerSharedPreferences.getInstance().getWorkTime());
+            mCvCountdownView.start(HandlerSharedPreferences.getInstance().getWorkTime());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Log.d(WORK_STATE, "I AM IN START. -> " + HandlerSharedPreferences.getInstance().getWorkTime());
-        mCvCountdownView.start(HandlerSharedPreferences.getInstance().getWorkTime());
     }
 
     @Override

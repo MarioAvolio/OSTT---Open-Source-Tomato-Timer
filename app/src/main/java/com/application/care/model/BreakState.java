@@ -16,7 +16,7 @@ import cn.iwgang.countdownview.CountdownView;
 
 public class BreakState extends State {
 
-    public static final String BREAK_STATE = "BREAK STATE";
+    public static final String BREAK_STATE = "BreakState";
 
     public BreakState(CountdownView mCvCountdownView) {
         super(mCvCountdownView);

@@ -48,7 +48,7 @@ public class ContextState {
     }
 
     public void stop() {
-        Log.d(TAG, state.toString());
+        Log.d(TAG, "stop: " + state.toString());
         state.stop();
     }
 
