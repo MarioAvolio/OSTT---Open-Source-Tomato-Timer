@@ -1,19 +1,18 @@
-package com.application.care.model;
+package com.application.care.util;
 
 import android.util.Log;
 
-import com.application.care.util.HandlerSharedPreferences;
 import com.warkiz.widget.IndicatorSeekBar;
 import com.warkiz.widget.OnSeekChangeListener;
 import com.warkiz.widget.SeekParams;
 
 import org.jetbrains.annotations.NotNull;
 
-public class LongBreakSeekBar implements OnSeekChangeListener {
+public class BreakSeekBar implements OnSeekChangeListener {
 
-    private static final String TAG = "LongBreakSeekBar";
+    private static final String TAG = "BreakSeekBar";
 
-    public LongBreakSeekBar() {
+    public BreakSeekBar() {
     }
 
     @Override
@@ -30,7 +29,7 @@ public class LongBreakSeekBar implements OnSeekChangeListener {
     public void onStopTrackingTouch(@NotNull IndicatorSeekBar seekBar) {
         Log.d(TAG, "onStopTrackingTouch: " + seekBar.getProgress());
 
-        long longBreakTime = seekBar.getProgress();
-        HandlerSharedPreferences.getInstance().setLongBreakTime(longBreakTime);
+        long breakTime = seekBar.getProgress();
+        HandlerSharedPreferences.getInstance().setBreakTime(breakTime);
     }
 }

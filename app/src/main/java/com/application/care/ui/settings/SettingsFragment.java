@@ -9,11 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.application.care.R;
-import com.application.care.model.SeekBarFactory;
-import com.warkiz.widget.IndicatorSeekBar;
+import com.application.care.util.SeekBarFactory;
 
 public class SettingsFragment extends Fragment {
 
+
+    private static final String TAG = "SettingsFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -21,24 +22,14 @@ public class SettingsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
         SeekBarFactory.setView(root);
-
-
-        final IndicatorSeekBar breakIndicatorSeekBar;
-        final IndicatorSeekBar workIndicatorSeekBar;
-        final IndicatorSeekBar longBreakIndicatorSeekBar;
-
         try {
-//            Init bar
-            workIndicatorSeekBar = SeekBarFactory.getInstance().getSeekBar(R.id.work_time);
-            breakIndicatorSeekBar = SeekBarFactory.getInstance().getSeekBar(R.id.break_time);
-            longBreakIndicatorSeekBar = SeekBarFactory.getInstance().getSeekBar(R.id.long_break_time);
-
+            SeekBarFactory.getInstance(); //init
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return root;
+
+
     }
-
-
 }

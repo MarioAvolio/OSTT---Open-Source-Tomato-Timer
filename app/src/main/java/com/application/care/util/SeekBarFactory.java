@@ -1,4 +1,4 @@
-package com.application.care.model;
+package com.application.care.util;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -18,8 +18,47 @@ public class SeekBarFactory {
     private static View view;
     private final Map<Integer, IndicatorSeekBar> integerIndicatorSeekBarMap;
 
-    private SeekBarFactory() {
+    private SeekBarFactory() throws Exception {
+
         integerIndicatorSeekBarMap = new HashMap<>();
+        initBarToRealValue(R.id.work_time);
+        initBarToRealValue(R.id.break_time);
+        initBarToRealValue(R.id.long_break_time);
+        initBarToRealValue(R.id.works_before_a_long_break);
+
+    }
+
+    /*
+     * WITH THIS METHOD IT SET THE BAR WITH THE LATEST SAVED VALUE
+     * */
+    @SuppressLint("NonConstantResourceId")
+    private void initBarToRealValue(int type) throws Exception {
+
+        Log.d(TAG, "initBarToRealValue: " + type);
+        IndicatorSeekBar indicatorSeekBar = getSeekBar(type);
+        long fullValue;
+        switch (type) {
+            case R.id.work_time:
+                fullValue = HandlerSharedPreferences.getInstance().getWorkTime();
+                break;
+
+            case R.id.break_time:
+                fullValue = HandlerSharedPreferences.getInstance().getBreakTime();
+                break;
+
+            case R.id.long_break_time:
+                fullValue = HandlerSharedPreferences.getInstance().getLongBreakTime();
+                break;
+
+            case R.id.works_before_a_long_break:
+                fullValue = HandlerSharedPreferences.getInstance().getWorksBeforeLongBreakTime();
+                break;
+
+            default:
+                throw new Exception("type is not identified");
+
+        }
+        indicatorSeekBar.setProgress(HandlerTime.getInstance().getRealTime(fullValue));
     }
 
     public static void setView(View view) {
@@ -36,6 +75,10 @@ public class SeekBarFactory {
         return instance;
     }
 
+    /*
+     * WITH THIS METHOD IT SET THE BAR WITH THE RELATIVE LISTENER
+     * */
+
     @SuppressLint("NonConstantResourceId")
     public IndicatorSeekBar getSeekBar(int type) throws Exception {
 
@@ -44,20 +87,27 @@ public class SeekBarFactory {
             return integerIndicatorSeekBarMap.get(type);
         } else {
             IndicatorSeekBar indicatorSeekBar = null;
+            try {
+                indicatorSeekBar = view.findViewById(type);
+            } catch (Exception e) {
+                throw new Exception("type is not identified");
+            }
+
             switch (type) {
                 case R.id.work_time:
-                    indicatorSeekBar = view.findViewById(R.id.work_time);
                     indicatorSeekBar.setOnSeekChangeListener(new WorkSeekBar());
                     break;
 
                 case R.id.break_time:
-                    indicatorSeekBar = view.findViewById(R.id.break_time);
                     indicatorSeekBar.setOnSeekChangeListener(new BreakSeekBar());
                     break;
 
                 case R.id.long_break_time:
-                    indicatorSeekBar = view.findViewById(R.id.long_break_time);
                     indicatorSeekBar.setOnSeekChangeListener(new LongBreakSeekBar());
+                    break;
+
+                case R.id.works_before_a_long_break:
+                    indicatorSeekBar.setOnSeekChangeListener(new BeforeALongBreakSeekBar());
                     break;
 
                 default:

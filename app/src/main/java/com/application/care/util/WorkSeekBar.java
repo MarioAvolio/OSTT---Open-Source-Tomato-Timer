@@ -1,8 +1,7 @@
-package com.application.care.model;
+package com.application.care.util;
 
 import android.util.Log;
 
-import com.application.care.util.HandlerSharedPreferences;
 import com.warkiz.widget.IndicatorSeekBar;
 import com.warkiz.widget.OnSeekChangeListener;
 import com.warkiz.widget.SeekParams;
