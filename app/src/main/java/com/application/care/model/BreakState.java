@@ -9,6 +9,7 @@ import com.application.care.R;
 import com.application.care.util.HandlerAlert;
 import com.application.care.util.HandlerColor;
 import com.application.care.util.HandlerSharedPreferences;
+import com.application.care.util.HandlerTime;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,6 +23,7 @@ public class BreakState extends State {
         super(mCvCountdownView);
     }
 
+    /*START BREAK */
     @SuppressLint("ResourceAsColor")
     @Override
     public void start() {
@@ -33,9 +35,20 @@ public class BreakState extends State {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mCvCountdownView.start(HandlerSharedPreferences.getInstance().getBreakTime());
+
+//        IF IS THE TIME OF LONG BREAK THE PROGRAM WILL START A COUNTDOWN WITH LONG BREAK TIME.
+        ContextState.SESSIONS++;
+        long realWorksBeforeLongBreakTime = HandlerTime.getInstance().getRealTime(HandlerSharedPreferences.getInstance().getWorksBeforeLongBreakTime());
+        if (ContextState.SESSIONS >= realWorksBeforeLongBreakTime) {
+            Log.d(BREAK_STATE, "start: " + "I AM IN THE LONG BREAK TIME!");
+            ContextState.SESSIONS = 0;
+            mCvCountdownView.start(HandlerSharedPreferences.getInstance().getLongBreakTime());
+        } else {
+            mCvCountdownView.start(HandlerSharedPreferences.getInstance().getBreakTime());
+        }
     }
 
+    /*STOP BREAK */
     @Override
     public void stop() {
         Log.d(BREAK_STATE, "I AM IN STOP.");

@@ -147,4 +147,5 @@
         app:isb_track_progress_color="@color/firstColor"
         app:isb_track_progress_size="4dp" />
 
+
 </LinearLayout>

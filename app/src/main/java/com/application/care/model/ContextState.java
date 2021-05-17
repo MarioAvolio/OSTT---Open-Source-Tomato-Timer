@@ -8,6 +8,7 @@ import cn.iwgang.countdownview.CountdownView;
 public class ContextState {
     private static final String TAG = "ContextState";
     private static State state;
+    public static int SESSIONS = 0;
 
     public ContextState(CountdownView mCvCountdownView) {
         state = new WorkState(mCvCountdownView);
