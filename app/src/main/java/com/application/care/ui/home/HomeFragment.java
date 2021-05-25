@@ -25,7 +25,7 @@ public class HomeFragment extends Fragment {
     private Fragment myFragment;
 
     private void manageCountDownTime(View root) {
-        HandlerCountDownTime.getInstance( ).setView(root, getActivity( ));
+        HandlerCountDownTime.getInstance().setView(root, getActivity());
     }
 
     private void manageProgressBar(View root) {
@@ -33,8 +33,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void restore(float remainingTime, int goalPercent) {
-        HandlerCountDownTime.getInstance( ).setTime(remainingTime);
-        HandlerProgressBar.getInstance( ).setPercent(goalPercent);
+        HandlerCountDownTime.getInstance().setTime(remainingTime);
+        HandlerProgressBar.getInstance().setPercent(goalPercent);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

@@ -12,10 +12,10 @@ public class HandlerSharedPreferences {
 
 
     private static final String TAG = "HandlerSharedPreferences";
-    @SuppressLint("StaticFieldLeak")
-    private static HandlerSharedPreferences instance;
     private static final String WORKS_BEFORE_LONG_BREAK_TIME_ID = "WORKS_BEFORE_LONG_BREAK_TIME_ID";
     private static final long DEFAULT_VALUE_WORKS_BEFORE_LONG_BREAK = 4;
+    @SuppressLint("StaticFieldLeak")
+    private static HandlerSharedPreferences instance;
     private final String WORK_ID = "WORK_ID";
     private final String BREAK_ID = "BREAK_ID";
     private final long DEFAULT_VALUE_WORK = 1;

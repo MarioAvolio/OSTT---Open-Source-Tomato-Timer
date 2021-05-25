@@ -4,7 +4,7 @@ public class HandlerTime {
     private static HandlerTime instance;
     private final long oneMinute = 60000;
 
-    private HandlerTime( ) {
+    private HandlerTime() {
     }
 
     public static HandlerTime getInstance() {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.application.care.ui.home.HomeFragment;
 import com.application.care.ui.settings.SettingsFragment;
-import com.application.care.ui.slideshow.SlideshowFragment;
+import com.application.care.ui.slideshow.StatisticsFragment;
 import com.application.care.util.HandlerAlert;
 import com.application.care.util.HandlerSharedPreferences;
 import com.google.android.material.tabs.TabLayout;
@@ -76,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
 
         addFragment(new HomeFragment(), adapter, "Home");
         addFragment(new SettingsFragment(), adapter, "Settings");
-        addFragment(new SlideshowFragment(), adapter, "Statistics");
+
+        Log.d(TAG, "prepareViewPager: make StatisticsFragment");
+        addFragment(new StatisticsFragment(), adapter, "Statistics");
 
         viewPager.setAdapter(adapter);
     }

@@ -1,1 +1,2 @@
 https://github.com/warkiz/IndicatorSeekBar
+https://github.com/PhilJay/MPAndroidChart

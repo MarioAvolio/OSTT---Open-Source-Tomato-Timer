@@ -28,6 +28,20 @@ public class SeekBarFactory {
 
     }
 
+    public static void setView(View view) {
+        SeekBarFactory.view = view;
+    }
+
+    public static SeekBarFactory getInstance() throws Exception {
+
+        if (view == null)
+            throw new Exception("view == null");
+
+        if (instance == null)
+            instance = new SeekBarFactory();
+        return instance;
+    }
+
     /*
      * WITH THIS METHOD IT SET THE BAR WITH THE LATEST SAVED VALUE
      * */
@@ -59,20 +73,6 @@ public class SeekBarFactory {
 
         }
         indicatorSeekBar.setProgress(HandlerTime.getInstance().getRealTime(fullValue));
-    }
-
-    public static void setView(View view) {
-        SeekBarFactory.view = view;
-    }
-
-    public static SeekBarFactory getInstance() throws Exception {
-
-        if (view == null)
-            throw new Exception("view == null");
-
-        if (instance == null)
-            instance = new SeekBarFactory();
-        return instance;
     }
 
     /*

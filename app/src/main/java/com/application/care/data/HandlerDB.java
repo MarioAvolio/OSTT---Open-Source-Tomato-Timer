@@ -79,25 +79,25 @@ public class HandlerDB extends SQLiteOpenHelper {
     public void addWorkTime(@NotNull WorkTime workTime) {
 
 //        if there is just a date, it will update this worktime
-        if ( thereIsADate(workTime.getDate( )) ) {
-            Log.d(TAG, workTime.toString( ) + " go to increase!");
+        if (thereIsADate(workTime.getDate())) {
+            Log.d(TAG, workTime.toString() + " go to increase!");
             increaseWorkTime(workTime);
             return;
         }
 
-        SQLiteDatabase db = this.getWritableDatabase( );
+        SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues( );
-        values.put(UtilDB.KEY_DATE, workTime.getDate( ));
-        values.put(UtilDB.KEY_TIME, workTime.getTime( ));
+        ContentValues values = new ContentValues();
+        values.put(UtilDB.KEY_DATE, workTime.getDate());
+        values.put(UtilDB.KEY_TIME, workTime.getTime());
 
-        Log.d(TAG, workTime.toString( ));
+        Log.d(TAG, workTime.toString());
 
         //Insert to row
         db.insert(UtilDB.TABLE_DATA_TIME, null, values); // TODO
 
         Log.d(TAG, "addWorkTime: --> " + workTime + " item added");
-        db.close( ); //closing db connection!
+        db.close(); //closing db connection!
 
     }
 
@@ -138,7 +138,7 @@ public class HandlerDB extends SQLiteOpenHelper {
                 null, null, null);
 
 
-        Log.d(TAG, "thereIsADate " + date + " --> " + ( cursor != null ));
+        Log.d(TAG, "thereIsADate " + date + " --> " + (cursor != null));
         return cursor != null && cursor.moveToNext();
     }
 
@@ -177,15 +177,15 @@ public class HandlerDB extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues( );
-        values.put(UtilDB.KEY_TIME, workTime.getTime( ));
+        ContentValues values = new ContentValues();
+        values.put(UtilDB.KEY_TIME, workTime.getTime());
 
         //update the row
 
         Log.d(TAG, "updateWorkTime update ok");
 
         return db.update(UtilDB.TABLE_DATA_TIME, values, UtilDB.KEY_DATE + "=?",
-                new String[]{String.valueOf(workTime.getDate( ))});
+                new String[]{String.valueOf(workTime.getDate())});
     }
 
 
@@ -193,16 +193,16 @@ public class HandlerDB extends SQLiteOpenHelper {
     public int increaseWorkTime(@NotNull WorkTime workTime) {
 
 //        if there isn't a worktime with a custom date, it will add this.
-        if ( !thereIsADate(workTime.getDate( )) ) {
+        if (!thereIsADate(workTime.getDate())) {
             addWorkTime(workTime);
             Log.d(TAG, "increaseWorkTime " + workTime.toString() + "pass to addWorkTime");
 
             return UPDATE_WORK_TIME;
         }
 
-        SQLiteDatabase db = this.getWritableDatabase( );
+        SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues( );
+        ContentValues values = new ContentValues();
 
         try {
             WorkTime oldWorkTime = getWorkTime(workTime.getDate());
@@ -210,7 +210,7 @@ public class HandlerDB extends SQLiteOpenHelper {
 
             values.put(UtilDB.KEY_TIME, workTime.getTime() + oldWorkTime.getTime());
         } catch (Exception e) {
-            e.printStackTrace( );
+            e.printStackTrace();
         }
 
         //update the row
@@ -218,16 +218,16 @@ public class HandlerDB extends SQLiteOpenHelper {
         Log.d(TAG, "increaseWorkTime increase ok");
 
         return db.update(UtilDB.TABLE_DATA_TIME, values, UtilDB.KEY_DATE + "=?",
-                new String[]{String.valueOf(workTime.getDate( ))});
+                new String[]{String.valueOf(workTime.getDate())});
     }
 
     //Delete single workTime
     public void deleteWorkTime(@NotNull WorkTime workTime) {
 
-        if ( !thereIsADate(workTime.getDate( )) )
+        if (!thereIsADate(workTime.getDate()))
             return;
 
-        SQLiteDatabase db = this.getWritableDatabase( );
+        SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(UtilDB.TABLE_DATA_TIME, UtilDB.KEY_DATE + "=?",
                 new String[]{String.valueOf(workTime.getDate())});

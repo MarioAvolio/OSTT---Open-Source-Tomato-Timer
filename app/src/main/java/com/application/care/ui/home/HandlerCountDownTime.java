@@ -32,16 +32,16 @@ public class HandlerCountDownTime {
         return instance;
     }
 
-    public long getRemainingTime( ) throws Exception {
-        if ( root == null )
-            throw new Exception( );
+    public long getRemainingTime() throws Exception {
+        if (root == null)
+            throw new Exception();
 
-        return mCvCountdownView.getRemainTime( );
+        return mCvCountdownView.getRemainTime();
     }
 
 
     public void setTime(float time) {
-        mCvCountdownView.start(( long ) time);
+        mCvCountdownView.start((long) time);
     }
 
 

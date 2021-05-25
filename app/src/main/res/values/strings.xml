@@ -15,5 +15,7 @@
     <string name="work_time">Work Time</string>
     <string name="long_break_time">Long Break Time</string>
     <string name="works_before_a_long_break">Works before a long break</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -20,16 +20,16 @@ public class WorkTime {
     public WorkTime() {
     }
 
+    public WorkTime(String date, float time) {
+        this.date = date;
+        this.time = time;
+    }
+
     @NotNull
     private String getCurrentDate() {
         Calendar calendar = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         return dateFormat.format(calendar.getTime());
-    }
-
-    public WorkTime(String date, float time) {
-        this.date = date;
-        this.time = time;
     }
 
     public String getDate() {
@@ -40,7 +40,7 @@ public class WorkTime {
         this.date = date;
     }
 
-    public float getTime( ) {
+    public float getTime() {
         return time;
     }
 
@@ -49,7 +49,7 @@ public class WorkTime {
     }
 
     @Override
-    public String toString( ) {
+    public String toString() {
         return "WorkTime{" +
                 "date='" + date + '\'' +
                 ", time=" + time +
