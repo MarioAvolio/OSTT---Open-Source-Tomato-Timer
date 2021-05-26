@@ -6,10 +6,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class WorkTime {
     private String date;
     private float time;
+
+    private final Calendar calendar = Calendar.getInstance();
+    @SuppressLint("SimpleDateFormat")
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
     @SuppressLint("SimpleDateFormat")
     public WorkTime(float time) {
@@ -27,13 +32,19 @@ public class WorkTime {
 
     @NotNull
     private String getCurrentDate() {
-        Calendar calendar = Calendar.getInstance();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        return dateFormat.format(calendar.getTime());
+        return dateFormat.format(getDateFormat());
     }
 
     public String getDate() {
         return date;
+    }
+
+    public Date getDateFormat() {
+        return calendar.getTime();
+    }
+
+    public int getMonth() {
+        return calendar.get(Calendar.MONTH);
     }
 
     public void setDate(String date) {
