@@ -12,13 +12,15 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.application.care.R;
-import com.application.care.model.WorkTime;
+import com.application.care.model.TimeDate;
 import com.application.care.util.UtilDB;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HandlerDB extends SQLiteOpenHelper {
 
@@ -26,6 +28,7 @@ public class HandlerDB extends SQLiteOpenHelper {
     private static final int UPDATE_WORK_TIME = 1;
     private static HandlerDB instance;
     private static Context context;
+    private Map<Integer, Float> timeMonthMap;
 
     public HandlerDB(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -75,34 +78,46 @@ public class HandlerDB extends SQLiteOpenHelper {
        CRUD = Create, Read, Update, Delete
 
      */
-    //Add WorkTime
-    public void addWorkTime(@NotNull WorkTime workTime) {
+    //Add TimeDate
+    public void addTimeDate(@NotNull TimeDate timeDate) {
+
+        /*
+         *   TIME MONTH MAP SERVES FOR CHART STATISTICS.
+         *   IT WILL INSERT THE "TIMEDATE" VALUE IN THIS MAP ONLY IF IT IS JUST USED.
+         *   IF THE MAP WILL BE INCREASED EVERY TIME A TIME DATE IS ADDED, IT CAN BE INCREASE RAM LEVEL
+         *
+         * */
+        if (timeMonthMap != null) {
+            insertInMap(timeDate);
+        }
 
 //        if there is just a date, it will update this worktime
-        if (thereIsADate(workTime.getDate())) {
-            Log.d(TAG, workTime.toString() + " go to increase!");
-            increaseWorkTime(workTime);
+        if (thereIsADate(timeDate.getDate())) {
+            Log.d(TAG, timeDate.toString() + " go to increase!");
+            increaseTimeDate(timeDate);
             return;
         }
+
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(UtilDB.KEY_DATE, workTime.getDate());
-        values.put(UtilDB.KEY_TIME, workTime.getTime());
+        values.put(UtilDB.KEY_DATE, timeDate.getDate());
+        values.put(UtilDB.KEY_TIME, timeDate.getTime());
 
-        Log.d(TAG, workTime.toString());
+        Log.d(TAG, timeDate.toString());
+
 
         //Insert to row
         db.insert(UtilDB.TABLE_DATA_TIME, null, values); // TODO
 
-        Log.d(TAG, "addWorkTime: --> " + workTime + " item added");
+        Log.d(TAG, "addWorkTime: --> " + timeDate + " item added");
         db.close(); //closing db connection!
 
     }
 
     //Get a workTime
-    public WorkTime getWorkTime(String date) throws SQLException {
+    public TimeDate getTimeDate(String date) throws SQLException {
         SQLiteDatabase db = this.getReadableDatabase();
 
         @SuppressLint("Recycle") Cursor cursor = db.query(UtilDB.TABLE_DATA_TIME,
@@ -121,10 +136,10 @@ public class HandlerDB extends SQLiteOpenHelper {
         Log.d(TAG, "getWorkTime item get -> " + cursor.getFloat(1));
 
 
-        WorkTime workTime = new WorkTime(cursor.getString(0), cursor.getFloat(1));
+        TimeDate timeDate = new TimeDate(cursor.getString(0), cursor.getFloat(1));
 
-        Log.d(TAG, "getWorkTime item get -> " + workTime.toString());
-        return workTime;
+        Log.d(TAG, "getWorkTime item get -> " + timeDate.toString());
+        return timeDate;
     }
 
 
@@ -142,9 +157,9 @@ public class HandlerDB extends SQLiteOpenHelper {
         return cursor != null && cursor.moveToNext();
     }
 
-    //Get all WorkTimes
-    public List<WorkTime> getAllWorkTimes() {
-        List<WorkTime> workTimeList = new ArrayList<>();
+    //Get works of any date
+    public List<TimeDate> getAllTimeDate() {
+        List<TimeDate> timeDateList = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -155,47 +170,71 @@ public class HandlerDB extends SQLiteOpenHelper {
         //Loop through our data
         if (cursor.moveToFirst()) {
             do {
-                WorkTime workTime = new WorkTime(cursor.getString(0), Float.parseFloat(cursor.getString(1)));
+                TimeDate timeDate = new TimeDate(cursor.getString(0), Float.parseFloat(cursor.getString(1)));
 
-                //add workTime objects to our list
-                workTimeList.add(workTime);
+                //add timeDate objects to our list
+                timeDateList.add(timeDate);
             } while (cursor.moveToNext());
         }
 
-        Log.d(TAG, "getAllWorkTimes items get -> " + workTimeList);
-        return workTimeList;
+        Log.d(TAG, "getAllWorkTimes items get -> " + timeDateList);
+        return timeDateList;
     }
 
-    //Update workTime
-    public int updateWorkTime(@NotNull WorkTime workTime) {
+
+    //Get works of any month
+    public Map<Integer, Float> getAllTimeMonth() {
+
+        if (timeMonthMap == null) {
+            timeMonthMap = new HashMap<>();
+            for (TimeDate timeDate : getAllTimeDate()) {
+                insertInMap(timeDate);
+            }
+        }
+
+        return timeMonthMap;
+    }
+
+    private void insertInMap(@NotNull TimeDate timeDate) {
+        if (!timeMonthMap.containsKey(timeDate.getMonth())) {
+            timeMonthMap.put(timeDate.getMonth(), timeDate.getTime());
+        } else {
+            float monthTime = timeMonthMap.get(timeDate.getMonth());
+            timeMonthMap.put(timeDate.getMonth(), monthTime + timeDate.getTime());
+        }
+    }
+
+
+    //Update timeDate
+    public int updateTimeDate(@NotNull TimeDate timeDate) {
 
 //        if there isn't a worktime with a custom date, it will add this.
-        if (!thereIsADate(workTime.getDate())) {
-            addWorkTime(workTime);
+        if (!thereIsADate(timeDate.getDate())) {
+            addTimeDate(timeDate);
             return UPDATE_WORK_TIME;
         }
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(UtilDB.KEY_TIME, workTime.getTime());
+        values.put(UtilDB.KEY_TIME, timeDate.getTime());
 
         //update the row
 
         Log.d(TAG, "updateWorkTime update ok");
 
         return db.update(UtilDB.TABLE_DATA_TIME, values, UtilDB.KEY_DATE + "=?",
-                new String[]{String.valueOf(workTime.getDate())});
+                new String[]{String.valueOf(timeDate.getDate())});
     }
 
 
-    //increase workTime
-    public int increaseWorkTime(@NotNull WorkTime workTime) {
+    //increase timeDate
+    public int increaseTimeDate(@NotNull TimeDate timeDate) {
 
 //        if there isn't a worktime with a custom date, it will add this.
-        if (!thereIsADate(workTime.getDate())) {
-            addWorkTime(workTime);
-            Log.d(TAG, "increaseWorkTime " + workTime.toString() + "pass to addWorkTime");
+        if (!thereIsADate(timeDate.getDate())) {
+            addTimeDate(timeDate);
+            Log.d(TAG, "increaseWorkTime " + timeDate.toString() + "pass to addWorkTime");
 
             return UPDATE_WORK_TIME;
         }
@@ -205,10 +244,10 @@ public class HandlerDB extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         try {
-            WorkTime oldWorkTime = getWorkTime(workTime.getDate());
-            Log.d(TAG, "increaseWorkTime  OLD -> " + oldWorkTime.toString());
+            TimeDate oldTimeDate = getTimeDate(timeDate.getDate());
+            Log.d(TAG, "increaseWorkTime  OLD -> " + oldTimeDate.toString());
 
-            values.put(UtilDB.KEY_TIME, workTime.getTime() + oldWorkTime.getTime());
+            values.put(UtilDB.KEY_TIME, timeDate.getTime() + oldTimeDate.getTime());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -218,19 +257,19 @@ public class HandlerDB extends SQLiteOpenHelper {
         Log.d(TAG, "increaseWorkTime increase ok");
 
         return db.update(UtilDB.TABLE_DATA_TIME, values, UtilDB.KEY_DATE + "=?",
-                new String[]{String.valueOf(workTime.getDate())});
+                new String[]{String.valueOf(timeDate.getDate())});
     }
 
-    //Delete single workTime
-    public void deleteWorkTime(@NotNull WorkTime workTime) {
+    //Delete single timeDate
+    public void deleteTimeDate(@NotNull TimeDate timeDate) {
 
-        if (!thereIsADate(workTime.getDate()))
+        if (!thereIsADate(timeDate.getDate()))
             return;
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(UtilDB.TABLE_DATA_TIME, UtilDB.KEY_DATE + "=?",
-                new String[]{String.valueOf(workTime.getDate())});
+                new String[]{String.valueOf(timeDate.getDate())});
 
         Log.d(TAG, "deleteWorkTime delete ok ");
 

@@ -61,7 +61,7 @@ public class HandlerCountDownTime {
 
         ContextState contextState = new ContextState(mCvCountdownView);
 
-//        HandlerDB.getInstance(root.getContext()).addWorkTime(new WorkTime(100));
+//        HandlerDB.getInstance(root.getContext()).addWorkTime(new TimeDate(100));
 //        Log.d(TAG, "onCreateView List: " + HandlerDB.getInstance(root.getContext()).getAllWorkTimes());
 
     }

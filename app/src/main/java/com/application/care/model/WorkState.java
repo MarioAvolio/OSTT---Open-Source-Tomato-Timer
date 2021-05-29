@@ -8,6 +8,7 @@ import com.application.care.data.HandlerDB;
 import com.application.care.ui.home.HandlerProgressBar;
 import com.application.care.util.HandlerAlert;
 import com.application.care.util.HandlerSharedPreferences;
+import com.application.care.util.HandlerTime;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,6 +22,7 @@ public class WorkState extends State {
         super(mCvCountdownView);
     }
 
+    /*START STATE*/
     @Override
     public void start() {
 
@@ -33,13 +35,20 @@ public class WorkState extends State {
         }
     }
 
+    /*STOP STATE*/
     @Override
     public void stop() {
         Log.d(WORK_STATE, "I AM IN STOP.");
 
-        WorkTime workTime = new WorkTime(mCvCountdownView.getDrawingTime());
+        /*
+         * SAVE CURRENT TIME DATE AND INSERT IT ON DB
+         * */
+        long time = HandlerTime.getInstance().getRealTime(HandlerSharedPreferences.getInstance().getWorkTime());
+        TimeDate timeDate = new TimeDate(time);
+
         try {
-            HandlerDB.getInstance().increaseWorkTime(workTime);
+
+            HandlerDB.getInstance().increaseTimeDate(timeDate);
 
             // change state
             State nextState = StateFlyweightFactory.getInstance().getState(BreakState.BREAK_STATE);
@@ -49,8 +58,9 @@ public class WorkState extends State {
             e.printStackTrace();
         }
 
+        /*INCREASE PROGRESS BAR*/
         HandlerProgressBar.getInstance().increase(1);
-        ContextState.getState().start();
+        ContextState.getState().start(); // PASS TO START STATE
     }
 
     @NonNull

@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 
 import com.application.care.R;
 import com.application.care.data.HandlerDB;
-import com.application.care.model.WorkTime;
 import com.application.care.util.HandlerColor;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -28,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class StatisticsFragment extends Fragment {
 
@@ -47,8 +47,6 @@ public class StatisticsFragment extends Fragment {
             "Dec"
     ));
     private HorizontalBarChart chart;
-    private List<WorkTime> allWorkTimes;
-    private List<BarEntry> entries;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     public View onCreateView(@NotNull @NonNull LayoutInflater inflater,
@@ -86,8 +84,8 @@ public class StatisticsFragment extends Fragment {
     }
 
     private void manageDataSet(@NotNull BarDataSet dataSet) throws Exception {
-        dataSet.setColor(HandlerColor.getInstance().getColorFromColorString(R.color.secondColor));
-        dataSet.setValueTextColor(HandlerColor.getInstance().getColorFromColorString(R.color.firstColor)); // styling
+        dataSet.setColor(HandlerColor.getInstance().getColorFromColorString(R.color.firstColor));
+        dataSet.setValueTextColor(HandlerColor.getInstance().getColorFromColorString(R.color.secondColor)); // styling
         dataSet.setValueTextSize(12);
         BarData lineData = new BarData(dataSet);
         lineData.setBarWidth(0.2f);
@@ -109,6 +107,8 @@ public class StatisticsFragment extends Fragment {
 
     private void initChart() throws Exception {
 
+
+        Log.d(TAG, "initChart: ");
 //        manage zoom and scale
         chart.setPinchZoom(false);
         chart.setScaleEnabled(false);
@@ -117,18 +117,14 @@ public class StatisticsFragment extends Fragment {
         chart.getAxisRight().setDrawAxisLine(false);
         chart.getAxisRight().setDrawLabels(false);
 
-        allWorkTimes = HandlerDB.getInstance().getAllWorkTimes();
-        entries = new ArrayList<>();
+        Map<Integer, Float> allTimeDates = HandlerDB.getInstance().getAllTimeMonth();
+        List<BarEntry> entries = new ArrayList<>();
 
-//        for (WorkTime data : allWorkTimes) {
-//            // turn your data into Entry objects
-//            entries.add(new BarEntry(data.getMonth(), data.getTime()));
-//        }
-
-        for (int i = 0; i < labels.size(); ++i) {
-            Log.d(TAG, "onCreateView: " + i);
-            entries.add(new BarEntry(i, i));
+        for (Integer month : allTimeDates.keySet()) {
+            BarEntry barEntry = new BarEntry(month, allTimeDates.get(month));
+            entries.add(barEntry);
         }
+
 
         BarDataSet dataSet = new BarDataSet(entries, "Work Time"); // add entries to dataset
         manageDataSet(dataSet);

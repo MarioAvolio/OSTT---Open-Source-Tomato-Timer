@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class WorkTime {
+public class TimeDate {
     private String date;
     private float time;
 
@@ -17,15 +17,15 @@ public class WorkTime {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
     @SuppressLint("SimpleDateFormat")
-    public WorkTime(float time) {
+    public TimeDate(float time) {
         this.time = time;
         this.date = getCurrentDate();
     }
 
-    public WorkTime() {
+    public TimeDate() {
     }
 
-    public WorkTime(String date, float time) {
+    public TimeDate(String date, float time) {
         this.date = date;
         this.time = time;
     }
@@ -61,7 +61,7 @@ public class WorkTime {
 
     @Override
     public String toString() {
-        return "WorkTime{" +
+        return "TimeDate{" +
                 "date='" + date + '\'' +
                 ", time=" + time +
                 '}';
