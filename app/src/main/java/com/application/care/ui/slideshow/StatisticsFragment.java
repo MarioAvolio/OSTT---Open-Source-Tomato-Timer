@@ -16,8 +16,8 @@ import com.application.care.data.HandlerDB;
 import com.application.care.model.WorkTime;
 import com.application.care.util.HandlerColor;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -60,9 +60,12 @@ public class StatisticsFragment extends Fragment {
         chart = root.findViewById(R.id.chart);
         Log.d(TAG, "onCreateView:  chart " + chart.toString());
 
+
         try {
-            setColor();
+            removeGrid();
             initChart();
+            setAxisColor(chart.getAxisLeft());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,13 +74,19 @@ public class StatisticsFragment extends Fragment {
         return root;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.P)
-    private void setColor() throws Exception {
-        chart.setGridBackgroundColor(HandlerColor.getInstance().getColorFromColorString(R.color.firstColor));
+    private void removeGrid() throws Exception {
+        chart.getXAxis().setDrawGridLines(false);
+        chart.getAxisLeft().setDrawGridLines(false);
+        chart.getAxisRight().setDrawGridLines(false);
+    }
+
+    private void setAxisColor(@NotNull AxisBase axisBase) throws Exception {
+        axisBase.setAxisLineColor(HandlerColor.getInstance().getColorFromColorString(R.color.secondColor));
+        axisBase.setTextColor(HandlerColor.getInstance().getColorFromColorString(R.color.secondColor));
     }
 
     private void manageDataSet(@NotNull BarDataSet dataSet) throws Exception {
-        dataSet.setColor(HandlerColor.getInstance().getColorFromColorString(R.color.firstColor));
+        dataSet.setColor(HandlerColor.getInstance().getColorFromColorString(R.color.secondColor));
         dataSet.setValueTextColor(HandlerColor.getInstance().getColorFromColorString(R.color.firstColor)); // styling
         dataSet.setValueTextSize(12);
         BarData lineData = new BarData(dataSet);
@@ -88,7 +97,7 @@ public class StatisticsFragment extends Fragment {
 
     private void manageAxis(@NotNull XAxis axis) throws Exception {
         axis.setValueFormatter(new IndexAxisValueFormatter(labels));
-        axis.setTextColor(HandlerColor.getInstance().getColorFromColorString(R.color.firstColor));
+        axis.setTextColor(HandlerColor.getInstance().getColorFromColorString(R.color.thirdColor));
         axis.setDrawAxisLine(false);
         axis.setDrawGridLines(false);
         axis.setGranularity(1f);
@@ -100,8 +109,13 @@ public class StatisticsFragment extends Fragment {
 
     private void initChart() throws Exception {
 
+//        manage zoom and scale
         chart.setPinchZoom(false);
         chart.setScaleEnabled(false);
+
+//        remove bot axis
+        chart.getAxisRight().setDrawAxisLine(false);
+        chart.getAxisRight().setDrawLabels(false);
 
         allWorkTimes = HandlerDB.getInstance().getAllWorkTimes();
         entries = new ArrayList<>();
@@ -119,12 +133,7 @@ public class StatisticsFragment extends Fragment {
         BarDataSet dataSet = new BarDataSet(entries, "Work Time"); // add entries to dataset
         manageDataSet(dataSet);
 
-        XAxis xAxis = chart.getXAxis();
-
-        YAxis yAxis = chart.getAxisRight();
-
-        manageAxis(xAxis);
-
+        manageAxis(chart.getXAxis());
         chart.setFitBars(true);
         chart.getDescription().setText("");
         chart.invalidate(); // refresh
