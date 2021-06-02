@@ -41,13 +41,11 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-
         ViewModel home = (ViewModel) FragmentSaveStateManager.getInstance().getFragmentState(FRAGMENT_NAME);
-
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        HandlerColor.setView(root); //set view on HandlerColor to change color of background
 
+        /* SET VIEW */
+        HandlerColor.setView(root); //set view on HandlerColor to change color of background
         manageProgressBar(root);
         manageCountDownTime(root);
 

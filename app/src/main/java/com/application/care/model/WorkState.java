@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.application.care.data.HandlerDB;
+import com.application.care.ui.home.HandlerCountDownTime;
 import com.application.care.ui.home.HandlerProgressBar;
 import com.application.care.util.HandlerAlert;
 import com.application.care.util.HandlerSharedPreferences;
@@ -27,6 +28,12 @@ public class WorkState extends State {
     public void start() {
 
         try {
+
+            /*
+             *  SET WORK COLOR AT COUNTDOWN OBJECT
+             * */
+            HandlerCountDownTime.getInstance().setWorkColor();
+
             HandlerAlert.getInstance().showToast("Start Work");
             Log.d(WORK_STATE, "start: " + HandlerSharedPreferences.getInstance().getWorkTime());
             mCvCountdownView.start(HandlerSharedPreferences.getInstance().getWorkTime());

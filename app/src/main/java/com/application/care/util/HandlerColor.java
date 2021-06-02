@@ -31,8 +31,4 @@ public class HandlerColor {
     public int getColorFromColorString(int color) {
         return Color.parseColor(getColorStringFromInt(color));
     }
-
-    public void changeBackgroundColor(int color) {
-        view.setBackgroundColor(getColorFromColorString(color));
-    }
 }

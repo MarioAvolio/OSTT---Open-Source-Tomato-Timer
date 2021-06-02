@@ -5,9 +5,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.application.care.R;
+import com.application.care.ui.home.HandlerCountDownTime;
 import com.application.care.util.HandlerAlert;
-import com.application.care.util.HandlerColor;
 import com.application.care.util.HandlerSharedPreferences;
 import com.application.care.util.HandlerTime;
 
@@ -30,21 +29,29 @@ public class BreakState extends State {
         Log.d(BREAK_STATE, "I AM IN START.");
 
         try {
-            HandlerAlert.getInstance().showToast("Take a break");
-            HandlerColor.getInstance().changeBackgroundColor(R.color.secondColor);
+
+            /*
+             *  SET BREAK COLOR AT COUNTDOWN OBJECT
+             * */
+            HandlerCountDownTime.getInstance().setBreakColor();
+
+
+            //        IF IS THE TIME OF LONG BREAK THE PROGRAM WILL START A COUNTDOWN WITH LONG BREAK TIME.
+            ContextState.SESSIONS++;
+            long realWorksBeforeLongBreakTime = HandlerTime.getInstance().getRealTime(HandlerSharedPreferences.getInstance().getWorksBeforeLongBreakTime());
+            if (ContextState.SESSIONS >= realWorksBeforeLongBreakTime) {
+                Log.d(BREAK_STATE, "start: " + "I AM IN THE LONG BREAK TIME!");
+                ContextState.SESSIONS = 0;
+
+                HandlerAlert.getInstance().showToast("Take a Long break");
+                mCvCountdownView.start(HandlerSharedPreferences.getInstance().getLongBreakTime());
+            } else {
+                HandlerAlert.getInstance().showToast("Take a break");
+                mCvCountdownView.start(HandlerSharedPreferences.getInstance().getBreakTime());
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
-        }
-
-//        IF IS THE TIME OF LONG BREAK THE PROGRAM WILL START A COUNTDOWN WITH LONG BREAK TIME.
-        ContextState.SESSIONS++;
-        long realWorksBeforeLongBreakTime = HandlerTime.getInstance().getRealTime(HandlerSharedPreferences.getInstance().getWorksBeforeLongBreakTime());
-        if (ContextState.SESSIONS >= realWorksBeforeLongBreakTime) {
-            Log.d(BREAK_STATE, "start: " + "I AM IN THE LONG BREAK TIME!");
-            ContextState.SESSIONS = 0;
-            mCvCountdownView.start(HandlerSharedPreferences.getInstance().getLongBreakTime());
-        } else {
-            mCvCountdownView.start(HandlerSharedPreferences.getInstance().getBreakTime());
         }
     }
 
@@ -54,8 +61,6 @@ public class BreakState extends State {
         Log.d(BREAK_STATE, "I AM IN STOP.");
 
         try {
-            HandlerColor.getInstance().changeBackgroundColor(R.color.fourthColor);
-
             // change state
             State nextState = StateFlyweightFactory.getInstance().getState(WorkState.WORK_STATE);
             Log.d(BREAK_STATE, "Next State -> " + nextState.toString());

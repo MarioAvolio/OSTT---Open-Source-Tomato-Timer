@@ -11,6 +11,7 @@ public class ContextState {
     private static State state;
 
     public ContextState(CountdownView mCvCountdownView) {
+        Log.d(TAG, "ContextState: ");
         state = new WorkState(mCvCountdownView);
 
         final boolean[] isStarted = {false}; // pause / resume
@@ -18,6 +19,8 @@ public class ContextState {
         mCvCountdownView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Log.d(TAG, "onClick: CLICK ON COUNTDOWN");
                 if (isStarted[0])
                     pause();
                 else

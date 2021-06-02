@@ -8,10 +8,12 @@ import com.application.care.R;
 import com.application.care.data.HandlerDB;
 import com.application.care.model.ContextState;
 import com.application.care.model.StateFlyweightFactory;
+import com.application.care.util.HandlerColor;
 
 import org.jetbrains.annotations.NotNull;
 
 import cn.iwgang.countdownview.CountdownView;
+import cn.iwgang.countdownview.DynamicConfig;
 
 public class HandlerCountDownTime {
 
@@ -44,25 +46,39 @@ public class HandlerCountDownTime {
         mCvCountdownView.start((long) time);
     }
 
+    private void setColor(int colorTime, int colorSuffix) throws Exception {
+        mCvCountdownView.dynamicShow
+                (
+                        new DynamicConfig.Builder()
+                                .setTimeTextColor(colorTime)
+                                .setSuffixTextColor(colorSuffix)
+                                .build());
+    }
+
+    public void setWorkColor() throws Exception {
+        setColor(HandlerColor.getInstance().getColorFromColorString(R.color.firstColor),
+                HandlerColor.getInstance().getColorFromColorString(R.color.thirdColor));
+    }
+
+    public void setBreakColor() throws Exception {
+        setColor(HandlerColor.getInstance().getColorFromColorString(R.color.thirdColor),
+                HandlerColor.getInstance().getColorFromColorString(R.color.thirdColor));
+    }
 
     public void setView(@NotNull View root, Activity activity) {
         this.root = root;
-
-
 //        Log.d(TAG, "onCreateView TIME SEATED: " + HandlerTime.getInstance().getTime());
         mCvCountdownView = root.findViewById(R.id.countDown);
 
-//        init StateFlyweightFactory
-        StateFlyweightFactory.setCountDownView(mCvCountdownView);
-
-//        init HandlerDB
-        HandlerDB.setContext(root.getContext());
-
-
+        /*
+         *   INIT CONTEXT STATE
+         * */
         ContextState contextState = new ContextState(mCvCountdownView);
 
-//        HandlerDB.getInstance(root.getContext()).addWorkTime(new TimeDate(100));
-//        Log.d(TAG, "onCreateView List: " + HandlerDB.getInstance(root.getContext()).getAllWorkTimes());
 
+//        init StateFlyweightFactory
+        StateFlyweightFactory.setCountDownView(mCvCountdownView);
+//        init HandlerDB
+        HandlerDB.setContext(root.getContext());
     }
 }

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class StatisticsFragment extends Fragment {
 
@@ -120,8 +121,17 @@ public class StatisticsFragment extends Fragment {
         Map<Integer, Float> allTimeDates = HandlerDB.getInstance().getAllTimeMonth();
         List<BarEntry> entries = new ArrayList<>();
 
-        for (Integer month : allTimeDates.keySet()) {
-            BarEntry barEntry = new BarEntry(month, allTimeDates.get(month));
+//        for (Integer month : allTimeDates.keySet()) {
+//            BarEntry barEntry = new BarEntry(month, allTimeDates.get(month));
+//            entries.add(barEntry);
+//        }
+
+        /*
+         *   INSERT RANDOM VALUES TO TEST BARCHART
+         * */
+        Random random = new Random();
+        for (int i = 0; i < labels.size(); ++i) {
+            BarEntry barEntry = new BarEntry(i, random.nextInt(10));
             entries.add(barEntry);
         }
 

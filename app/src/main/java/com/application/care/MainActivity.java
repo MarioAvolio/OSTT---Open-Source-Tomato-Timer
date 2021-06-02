@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
 //        init HandlerSharedPreferences
         HandlerSharedPreferences.getInstance().setActivity(MainActivity.this);
 
