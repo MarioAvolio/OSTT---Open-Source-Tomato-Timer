@@ -1,10 +1,12 @@
-package com.application.care.util;
+package com.application.care.model.SeekBar;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.View;
 
 import com.application.care.R;
+import com.application.care.util.HandlerSharedPreferences;
+import com.application.care.util.HandlerTime;
 import com.warkiz.widget.IndicatorSeekBar;
 
 import java.util.HashMap;
@@ -25,7 +27,7 @@ public class SeekBarFactory {
         initBarToRealValue(R.id.break_time);
         initBarToRealValue(R.id.long_break_time);
         initBarToRealValue(R.id.works_before_a_long_break);
-
+        initBarToRealValue(R.id.goal);
     }
 
     public static void setView(View view) {
@@ -68,6 +70,10 @@ public class SeekBarFactory {
                 fullValue = HandlerSharedPreferences.getInstance().getWorksBeforeLongBreakTime();
                 break;
 
+            case R.id.goal:
+                fullValue = HandlerSharedPreferences.getInstance().getDailyGoal();
+                break;
+
             default:
                 throw new Exception("type is not identified");
 
@@ -108,6 +114,11 @@ public class SeekBarFactory {
 
                 case R.id.works_before_a_long_break:
                     indicatorSeekBar.setOnSeekChangeListener(new BeforeALongBreakSeekBar());
+                    break;
+
+
+                case R.id.goal:
+                    indicatorSeekBar.setOnSeekChangeListener(new GoalSeekBar());
                     break;
 
                 default:

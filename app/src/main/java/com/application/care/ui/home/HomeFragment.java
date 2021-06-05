@@ -27,11 +27,11 @@ public class HomeFragment extends Fragment {
         HandlerCountDownTime.getInstance().setView(root, getActivity());
     }
 
-    private void manageProgressBar(View root) {
-        HandlerProgressBar.getInstance().setView(root);
+    private void manageProgressBar(View root) throws Exception {
+        HandlerProgressBar.setView(root);
     }
 
-    private void restore(float remainingTime, int goalPercent) {
+    private void restore(float remainingTime, int goalPercent) throws Exception {
         HandlerCountDownTime.getInstance().setTime(remainingTime);
         HandlerProgressBar.getInstance().setPercent(goalPercent);
     }
@@ -45,7 +45,11 @@ public class HomeFragment extends Fragment {
 
         /* SET VIEW */
         HandlerColor.setView(root); //set view on HandlerColor to change color of background
-        manageProgressBar(root);
+        try {
+            manageProgressBar(root);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         manageCountDownTime(root);
 
         /*IF CHANGE FRAGMENT*/
@@ -67,7 +71,11 @@ public class HomeFragment extends Fragment {
             int goalPercent = (int) FragmentSaveStateManager.getInstance().getFragmentState(GOAL_PERCENT);
 
             // Restore value of members from saved state
-            restore(remainingTime, goalPercent);
+            try {
+                restore(remainingTime, goalPercent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } else {
 
@@ -91,7 +99,11 @@ public class HomeFragment extends Fragment {
             int goalPercent = savedInstanceState.getInt(GOAL_PERCENT);
 
             // Restore value of members from saved state
-            restore(remainingTime, goalPercent);
+            try {
+                restore(remainingTime, goalPercent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } else {
             Log.d(TAG, "savedInstanceState == NULL!");

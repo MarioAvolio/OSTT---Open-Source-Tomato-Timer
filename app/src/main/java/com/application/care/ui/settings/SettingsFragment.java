@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.application.care.R;
-import com.application.care.util.SeekBarFactory;
+import com.application.care.model.SeekBar.SeekBarFactory;
 
 public class SettingsFragment extends Fragment {
 

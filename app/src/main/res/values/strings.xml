@@ -17,5 +17,11 @@
     <string name="works_before_a_long_break">Works before a long break</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="daily_goal">Daily Goal</string>
+    <string name="daily_goal_default">8</string>
+    <string name="works_before_a_long_break_default">4</string>
+    <string name="long_break_time_default">15</string>
+    <string name="break_time_default">5</string>
+    <string name="work_time_default">25</string>
 
 </resources>

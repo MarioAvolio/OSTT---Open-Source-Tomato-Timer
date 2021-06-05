@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.application.care.R;
 import com.application.care.data.HandlerDB;
-import com.application.care.model.ContextState;
-import com.application.care.model.StateFlyweightFactory;
+import com.application.care.model.State.ContextState;
+import com.application.care.model.State.StateFlyweightFactory;
 import com.application.care.util.HandlerColor;
 
 import org.jetbrains.annotations.NotNull;

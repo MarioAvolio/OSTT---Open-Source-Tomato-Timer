@@ -1,4 +1,4 @@
-package com.application.care.model;
+package com.application.care.model.State;
 
 import java.util.HashMap;
 import java.util.Map;

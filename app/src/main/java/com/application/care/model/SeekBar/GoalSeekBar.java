@@ -1,18 +1,18 @@
-package com.application.care.util;
+package com.application.care.model.SeekBar;
 
 import android.util.Log;
 
+import com.application.care.util.HandlerSharedPreferences;
 import com.warkiz.widget.IndicatorSeekBar;
 import com.warkiz.widget.OnSeekChangeListener;
 import com.warkiz.widget.SeekParams;
 
 import org.jetbrains.annotations.NotNull;
 
-public class WorkSeekBar implements OnSeekChangeListener {
+public class GoalSeekBar implements OnSeekChangeListener {
+    private static final String TAG = "GoalSeekBar";
 
-    private static final String TAG = "WorkSeekBar";
-
-    public WorkSeekBar() {
+    public GoalSeekBar() {
     }
 
     @Override
@@ -29,7 +29,11 @@ public class WorkSeekBar implements OnSeekChangeListener {
     public void onStopTrackingTouch(@NotNull IndicatorSeekBar seekBar) {
         Log.d(TAG, "onStopTrackingTouch: " + seekBar.getProgress());
 
-        long workTime = seekBar.getProgress();
-        HandlerSharedPreferences.getInstance().setWorkTime(workTime);
+        long dailyGoal = seekBar.getProgress();
+        try {
+            HandlerSharedPreferences.getInstance().setDailyGoal(dailyGoal);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

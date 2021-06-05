@@ -62,12 +62,15 @@ public class WorkState extends State {
             State nextState = StateFlyweightFactory.getInstance().getState(BreakState.BREAK_STATE);
             Log.d(WORK_STATE, "Next State -> " + nextState.toString());
             ContextState.setState(nextState);
+
+
+            /*INCREASE PROGRESS BAR*/
+            HandlerProgressBar.getInstance().increase();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        /*INCREASE PROGRESS BAR*/
-        HandlerProgressBar.getInstance().increase(1);
         ContextState.getState().start(); // PASS TO START STATE
     }
 

@@ -1,7 +1,8 @@
-package com.application.care.util;
+package com.application.care.model.SeekBar;
 
 import android.util.Log;
 
+import com.application.care.util.HandlerSharedPreferences;
 import com.warkiz.widget.IndicatorSeekBar;
 import com.warkiz.widget.OnSeekChangeListener;
 import com.warkiz.widget.SeekParams;
@@ -30,6 +31,10 @@ public class BreakSeekBar implements OnSeekChangeListener {
         Log.d(TAG, "onStopTrackingTouch: " + seekBar.getProgress());
 
         long breakTime = seekBar.getProgress();
-        HandlerSharedPreferences.getInstance().setBreakTime(breakTime);
+        try {
+            HandlerSharedPreferences.getInstance().setBreakTime(breakTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

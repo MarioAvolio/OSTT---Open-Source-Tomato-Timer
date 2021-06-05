@@ -7,6 +7,8 @@ import android.view.View;
 import com.application.care.R;
 import com.application.care.util.HandlerAlert;
 import com.application.care.util.HandlerColor;
+import com.application.care.util.HandlerSharedPreferences;
+import com.application.care.util.HandlerTime;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.daimajia.numberprogressbar.OnProgressBarListener;
 
@@ -17,13 +19,17 @@ public class HandlerProgressBar {
     private static final String TAG = "HandlerProgressBar";
     @SuppressLint("StaticFieldLeak")
     private static HandlerProgressBar instance;
-    private View root;
-    private NumberProgressBar numberProgressBar;
+    private static View root;
+    private static NumberProgressBar numberProgressBar;
 
-    public HandlerProgressBar() {
+    private HandlerProgressBar() {
     }
 
-    public static HandlerProgressBar getInstance() {
+    public static HandlerProgressBar getInstance() throws Exception {
+
+        if (root == null)
+            throw new Exception("root == null");
+
         if (instance == null)
             instance = new HandlerProgressBar();
         return instance;
@@ -35,16 +41,61 @@ public class HandlerProgressBar {
 
     }
 
-    public void increase(int update) {
-        Log.d(TAG, "increse of " + update);
-        numberProgressBar.incrementProgressBy(update);
-    }
-
     @SuppressLint("ResourceType")
-    public void setColor() throws Exception {
+    private static void setColor() throws Exception {
         numberProgressBar.setProgressTextColor(HandlerColor.getInstance().getColorFromColorString(R.color.secondColor));
         numberProgressBar.setReachedBarColor(HandlerColor.getInstance().getColorFromColorString(R.color.firstColor));
         numberProgressBar.setUnreachedBarColor(HandlerColor.getInstance().getColorFromColorString(R.color.thirdColor));
+    }
+
+    private static void init() throws Exception {
+        numberProgressBar = root.findViewById(R.id.number_progress_bar);
+
+        /*
+         *  SET DAILY GOAL
+         * */
+
+        int tmp = (int) HandlerSharedPreferences.getInstance().getDailyGoal();
+        int dailyGoal = (int) HandlerTime.getInstance().getRealTime(tmp);
+        Log.d(TAG, "dailyGoal: " + dailyGoal);
+        numberProgressBar.setMax(dailyGoal);
+        numberProgressBar.setProgress(0);
+
+        /*
+         *  CUSTOMIZATION
+         * */
+        numberProgressBar.setReachedBarHeight(10);
+        numberProgressBar.setProgressTextSize(35);
+
+        try {
+            setColor(); // set color bar
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        /*
+         * LISTENER
+         * */
+
+        numberProgressBar.setOnProgressBarListener(new OnProgressBarListener() {
+            @Override
+            public void onProgressChange(int current, int max) {
+                if (current == max) {
+                    try {
+                        HandlerAlert.getInstance().showToast("DAILY GOAL COMPLETE!");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        });
+    }
+
+    public static void setView(@NotNull View root) throws Exception {
+        HandlerProgressBar.root = root;
+        init();
     }
 
     public int getProgress() {
@@ -56,33 +107,13 @@ public class HandlerProgressBar {
         numberProgressBar.setProgress(percent);
     }
 
-    public void setView(@NotNull View root) {
-        this.root = root;
-        numberProgressBar = root.findViewById(R.id.number_progress_bar);
-        numberProgressBar.setMax(8);
-        numberProgressBar.setProgress(0);
-        numberProgressBar.setReachedBarHeight(10);
-        numberProgressBar.setProgressTextSize(50);
+    public void increase(int update) {
+        Log.d(TAG, "increase of " + update);
+        numberProgressBar.incrementProgressBy(update);
+    }
 
-        try {
-            setColor(); // set color bar
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        numberProgressBar.setOnProgressBarListener(new OnProgressBarListener() {
-            @Override
-            public void onProgressChange(int current, int max) {
-                if (current == max) {
-                    try {
-                        HandlerAlert.getInstance().showToast("MISSION COMPLETE!");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        });
+    public void increase() {
+        Log.d(TAG, "increase of single element");
+        numberProgressBar.incrementProgressBy(1);
     }
 }

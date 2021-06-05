@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 //        init HandlerSharedPreferences
-        HandlerSharedPreferences.getInstance().setActivity(MainActivity.this);
+        HandlerSharedPreferences.setActivity(MainActivity.this);
 
 //        init HandlerAlert
         HandlerAlert.setContext(MainActivity.this);
