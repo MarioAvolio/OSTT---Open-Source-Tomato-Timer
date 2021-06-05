@@ -1,4 +1,4 @@
-package com.application.care.ui.slideshow;
+package com.application.care.ui.statistics;
 
 import android.os.Build;
 import android.os.Bundle;

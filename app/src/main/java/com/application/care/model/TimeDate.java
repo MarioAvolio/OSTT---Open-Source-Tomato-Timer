@@ -9,12 +9,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class TimeDate {
-    private String date;
-    private float time;
-
     private final Calendar calendar = Calendar.getInstance();
     @SuppressLint("SimpleDateFormat")
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    private String date;
+    private float time;
 
     @SuppressLint("SimpleDateFormat")
     public TimeDate(float time) {
@@ -39,16 +38,16 @@ public class TimeDate {
         return date;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public Date getDateFormat() {
         return calendar.getTime();
     }
 
     public int getMonth() {
         return calendar.get(Calendar.MONTH);
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public float getTime() {

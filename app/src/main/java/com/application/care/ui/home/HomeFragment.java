@@ -22,7 +22,6 @@ public class HomeFragment extends Fragment {
     private static final String GOAL_PERCENT = "GOAL";
     private static final String FRAGMENT_NAME = "Fragment HomeFragment";
     private HomeViewModel homeViewModel;
-    private Fragment myFragment;
 
     private void manageCountDownTime(View root) {
         HandlerCountDownTime.getInstance().setView(root, getActivity());
@@ -61,7 +60,10 @@ public class HomeFragment extends Fragment {
             if (o instanceof Long) {
                 l = (long) o;
             }
-            float remainingTime = l.floatValue();
+            float remainingTime = 0;
+            if (l != null) {
+                remainingTime = l.floatValue();
+            }
             int goalPercent = (int) FragmentSaveStateManager.getInstance().getFragmentState(GOAL_PERCENT);
 
             // Restore value of members from saved state
@@ -98,13 +100,6 @@ public class HomeFragment extends Fragment {
 
         }
 
-
-//        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
         return root;
     }
 

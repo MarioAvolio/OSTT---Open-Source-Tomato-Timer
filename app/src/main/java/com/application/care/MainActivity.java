@@ -18,7 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.application.care.ui.home.HomeFragment;
 import com.application.care.ui.settings.SettingsFragment;
-import com.application.care.ui.slideshow.StatisticsFragment;
+import com.application.care.ui.statistics.StatisticsFragment;
 import com.application.care.util.HandlerAlert;
 import com.application.care.util.HandlerSharedPreferences;
 import com.google.android.material.tabs.TabLayout;
