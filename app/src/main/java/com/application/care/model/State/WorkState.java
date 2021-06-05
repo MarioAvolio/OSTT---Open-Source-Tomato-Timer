@@ -1,10 +1,11 @@
-package com.application.care.model;
+package com.application.care.model.State;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.application.care.data.HandlerDB;
+import com.application.care.model.TimeDate;
 import com.application.care.ui.home.HandlerCountDownTime;
 import com.application.care.ui.home.HandlerProgressBar;
 import com.application.care.util.HandlerAlert;
@@ -47,13 +48,13 @@ public class WorkState extends State {
     public void stop() {
         Log.d(WORK_STATE, "I AM IN STOP.");
 
-        /*
-         * SAVE CURRENT TIME DATE AND INSERT IT ON DB
-         * */
-        long time = HandlerTime.getInstance().getRealTime(HandlerSharedPreferences.getInstance().getWorkTime());
-        TimeDate timeDate = new TimeDate(time);
 
         try {
+            /*
+             * SAVE CURRENT TIME DATE AND INSERT IT ON DB
+             * */
+            long time = HandlerTime.getInstance().getRealTime(HandlerSharedPreferences.getInstance().getWorkTime());
+            TimeDate timeDate = new TimeDate(time);
 
             HandlerDB.getInstance().increaseTimeDate(timeDate);
 
