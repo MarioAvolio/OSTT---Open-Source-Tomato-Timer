@@ -23,5 +23,6 @@
     <string name="long_break_time_default">15</string>
     <string name="break_time_default">5</string>
     <string name="work_time_default">25</string>
+    <string name="daily_goal_progress">Daily Goal Progress</string>
 
 </resources>

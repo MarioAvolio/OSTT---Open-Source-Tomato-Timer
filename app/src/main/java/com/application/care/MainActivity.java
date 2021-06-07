@@ -1,20 +1,16 @@
 package com.application.care;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ImageSpan;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.viewpager.widget.ViewPager;
+import androidx.lifecycle.Lifecycle;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.application.care.ui.home.HomeFragment;
 import com.application.care.ui.settings.SettingsFragment;
@@ -22,25 +18,26 @@ import com.application.care.ui.statistics.StatisticsFragment;
 import com.application.care.util.HandlerAlert;
 import com.application.care.util.HandlerSharedPreferences;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String HOME = "HOME";
     private static final String TAG = "MainActivity";
-    private AppBarConfiguration mAppBarConfiguration;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private Map<Integer, IconText> iconTextMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d(TAG, "onCreate: ");
 
 
 //        init HandlerSharedPreferences
@@ -49,87 +46,120 @@ public class MainActivity extends AppCompatActivity {
 //        init HandlerAlert
         HandlerAlert.setContext(MainActivity.this);
 
-        tabLayout = findViewById(R.id.tab_layout);
-        viewPager = findViewById(R.id.view_pager);
+        iconTextMap = new HashMap<>();
 
 
-        Map<String, String> stringMap = new HashMap<>();
-        tabLayout.setupWithViewPager(viewPager);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        ViewPager2 viewPager2 = findViewById(R.id.view_pager);
+//        OrdersPagerAdapterFactory ordersPagerAdapterFactory = new OrdersPagerAdapterFactory(fragmentManager, getLifecycle());
 
-        prepareViewPager(viewPager);
+        OrdersPagerAdapterFactory ordersPagerAdapterFactory = new OrdersPagerAdapterFactory(MainActivity.this);
+        viewPager2.setAdapter(ordersPagerAdapterFactory);
 
-        try {
-            HandlerAlert.getInstance().showToast("Click the countdown to start");
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(
+                tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull @NotNull TabLayout.Tab tab, int position) {
+
+                IconText iconText = getIconText(position);
+                tab.setText(iconText.getName());
+                tab.setIcon(iconText.getIcon());
+            }
+        }
+        );
+        tabLayoutMediator.attach();
+    }
+
+    @NotNull
+    private IconText getIconText(int position) {
+        if (iconTextMap.containsKey(position)) {
+            return Objects.requireNonNull(iconTextMap.get(position));
+        } else {
+            IconText iconText = null;
+            switch (position) {
+                case 1:
+                    iconText = new IconText(R.drawable.ic_baseline_settings_24, "Settings");
+                    break;
+                case 2:
+                    iconText = new IconText(R.drawable.ic_baseline_access_time_24, "Statistics");
+                    break;
+                default:
+                    iconText = new IconText(R.drawable.ic_baseline_home_24, "Home");
+                    break;
+            }
+
+            iconTextMap.put(position, iconText);
+            return Objects.requireNonNull(iconText);
         }
     }
 
-    private void addFragment(@NotNull Fragment fragment, @NotNull MainAdapter adapter, String name) {
-        Bundle bundle = new Bundle();
-        bundle.putString("title", name);
-        fragment.setArguments(bundle);
-        adapter.addFragment(fragment, name);
-    }
+    private static class OrdersPagerAdapterFactory extends FragmentStateAdapter {
 
-    private void prepareViewPager(@NotNull ViewPager viewPager) {
-        MainAdapter adapter = new MainAdapter(getSupportFragmentManager());
+        private final Map<Integer, Fragment> integerFragmentMap;
 
-
-        addFragment(new HomeFragment(), adapter, "Home");
-        addFragment(new SettingsFragment(), adapter, "Settings");
-
-        Log.d(TAG, "prepareViewPager: make StatisticsFragment");
-        addFragment(new StatisticsFragment(), adapter, "Statistics");
-
-        viewPager.setAdapter(adapter);
-    }
-
-    private class MainAdapter extends FragmentPagerAdapter {
-
-        ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
-        ArrayList<String> stringArrayList = new ArrayList<>();
-        int[] imageList = {R.drawable.ic_baseline_home_24, R.drawable.ic_baseline_settings_24,
-                R.drawable.ic_baseline_access_time_24};
-
-        public MainAdapter(@NonNull @NotNull FragmentManager fm) {
-            super(fm);
+        public OrdersPagerAdapterFactory(@NonNull @NotNull FragmentActivity fragmentActivity) {
+            super(fragmentActivity);
+            integerFragmentMap = new HashMap<>();
         }
 
-        public void addFragment(Fragment fragment, String s) {
-            fragmentArrayList.add(fragment);
-            stringArrayList.add(s);
+        public OrdersPagerAdapterFactory(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+            super(fragmentManager, lifecycle);
+            Log.d(TAG, "OrdersPagerAdapterFactory: ");
+            integerFragmentMap = new HashMap<>();
         }
 
         @NonNull
-        @NotNull
         @Override
-        public Fragment getItem(int position) {
-            return fragmentArrayList.get(position);
+        public Fragment createFragment(int position) {
+
+            Log.d(TAG, "createFragment: " + position);
+            if (integerFragmentMap.containsKey(position)) {
+                return Objects.requireNonNull(integerFragmentMap.get(position));
+            }
+
+            Fragment fragment = null;
+            switch (position) {
+                case 2:
+                    Log.d(TAG, "createFragment: StatisticsFragment");
+                    fragment = new StatisticsFragment();
+                    break;
+                case 1:
+                    Log.d(TAG, "createFragment: SettingsFragment");
+                    fragment = new SettingsFragment();
+                    break;
+                default:
+                    Log.d(TAG, "createFragment: Default");
+                    fragment = new HomeFragment();
+                    break;
+            }
+
+            integerFragmentMap.put(position, fragment);
+            return fragment;
         }
 
         @Override
-        public int getCount() {
-            return fragmentArrayList.size();
+        public int getItemCount() {
+            return 3;
+        }
+    }
+
+    private class IconText {
+        private final int icon;
+        private final String name;
+
+        public IconText(int icon, String name) {
+            this.icon = icon;
+            this.name = name;
         }
 
-        public CharSequence getPageTitle(int position) {
-            Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),
-                    imageList[position]);
-
-//            set bound
-
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
-                    drawable.getIntrinsicHeight());
-
-            SpannableString spannableString = new SpannableString("     " + stringArrayList.get(position));
-
-            ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
-
-            spannableString.setSpan(imageSpan, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            return spannableString;
+        public int getIcon() {
+            return icon;
         }
 
+        public String getName() {
+            return name;
+        }
     }
 }
