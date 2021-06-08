@@ -1,14 +1,10 @@
-package com.application.care.ui.home;
+package com.application.care.util;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.View;
 
 import com.application.care.R;
-import com.application.care.util.HandlerAlert;
-import com.application.care.util.HandlerColor;
-import com.application.care.util.HandlerSharedPreferences;
-import com.application.care.util.HandlerTime;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.daimajia.numberprogressbar.OnProgressBarListener;
 

@@ -5,21 +5,18 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.application.care.ui.home.HandlerCountDownTime;
 import com.application.care.util.HandlerAlert;
+import com.application.care.util.HandlerCountDownTime;
 import com.application.care.util.HandlerSharedPreferences;
 import com.application.care.util.HandlerTime;
 
 import org.jetbrains.annotations.NotNull;
 
-import cn.iwgang.countdownview.CountdownView;
-
 public class BreakState extends State {
 
     public static final String BREAK_STATE = "BreakState";
 
-    public BreakState(CountdownView mCvCountdownView) {
-        super(mCvCountdownView);
+    public BreakState() {
     }
 
     /*START BREAK */
@@ -37,17 +34,21 @@ public class BreakState extends State {
 
 
             //        IF IS THE TIME OF LONG BREAK THE PROGRAM WILL START A COUNTDOWN WITH LONG BREAK TIME.
-            ContextState.SESSIONS++;
+            ContextState.getInstance().increaseSession();
             long realWorksBeforeLongBreakTime = HandlerTime.getInstance().getRealTime(HandlerSharedPreferences.getInstance().getWorksBeforeLongBreakTime());
-            if (ContextState.SESSIONS >= realWorksBeforeLongBreakTime) {
-                Log.d(BREAK_STATE, "start: " + "I AM IN THE LONG BREAK TIME!");
-                ContextState.SESSIONS = 0;
 
+            if (ContextState.getInstance().getCurrentSession() >= realWorksBeforeLongBreakTime) {
+                Log.d(BREAK_STATE, "start: " + "I AM IN THE LONG BREAK TIME!");
+
+                /*
+                 * RESTART SESSION
+                 * */
+                ContextState.getInstance().setCurrentSession(0);
                 HandlerAlert.getInstance().showToast("Take a Long break");
-                mCvCountdownView.start(HandlerSharedPreferences.getInstance().getLongBreakTime());
+                HandlerCountDownTime.getInstance().getmCvCountdownView().start(HandlerSharedPreferences.getInstance().getLongBreakTime());
             } else {
                 HandlerAlert.getInstance().showToast("Take a break");
-                mCvCountdownView.start(HandlerSharedPreferences.getInstance().getBreakTime());
+                HandlerCountDownTime.getInstance().getmCvCountdownView().start(HandlerSharedPreferences.getInstance().getBreakTime());
             }
 
         } catch (Exception e) {
@@ -65,12 +66,11 @@ public class BreakState extends State {
             State nextState = StateFlyweightFactory.getInstance().getState(WorkState.WORK_STATE);
             Log.d(BREAK_STATE, "Next State -> " + nextState.toString());
             ContextState.setState(nextState);
+            ContextState.getInstance().start();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-        ContextState.getState().start();
     }
 
     @NonNull

@@ -46,13 +46,12 @@ public class MainActivity extends AppCompatActivity {
 //        init HandlerAlert
         HandlerAlert.setContext(MainActivity.this);
 
+//        init map
         iconTextMap = new HashMap<>();
 
-
+//        tab layout
         FragmentManager fragmentManager = getSupportFragmentManager();
         ViewPager2 viewPager2 = findViewById(R.id.view_pager);
-//        OrdersPagerAdapterFactory ordersPagerAdapterFactory = new OrdersPagerAdapterFactory(fragmentManager, getLifecycle());
-
         OrdersPagerAdapterFactory ordersPagerAdapterFactory = new OrdersPagerAdapterFactory(MainActivity.this);
         viewPager2.setAdapter(ordersPagerAdapterFactory);
 
@@ -145,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class IconText {
+    private static class IconText {
         private final int icon;
         private final String name;
 

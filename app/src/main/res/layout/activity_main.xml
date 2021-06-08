@@ -7,12 +7,6 @@
     android:background="@color/fourthColor"
     tools:context=".MainActivity">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@color/secondColor"
-        app:layout_constraintBottom_toBottomOf="@id/tab_layout" />
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
@@ -26,6 +20,12 @@
         app:tabPaddingBottom="8dp"
         app:tabPaddingTop="15dp"
         app:tabTextColor="@color/secondColor" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/secondColor"
+        app:layout_constraintBottom_toBottomOf="@id/tab_layout" />
 
     <View
         android:layout_width="match_parent"

@@ -1,46 +1,34 @@
 package com.application.care.model.State;
 
 import android.util.Log;
-import android.view.View;
-
-import cn.iwgang.countdownview.CountdownView;
 
 public class ContextState {
     private static final String TAG = "ContextState";
-    public static int SESSIONS = 0;
+    private static ContextState instance;
     private static State state;
+    private int currentSession = 0;
 
-    public ContextState(CountdownView mCvCountdownView) {
-        Log.d(TAG, "ContextState: ");
-        state = new WorkState(mCvCountdownView);
-
-        final boolean[] isStarted = {false}; // pause / resume
-//        set click listener
-        mCvCountdownView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Log.d(TAG, "onClick: CLICK ON COUNTDOWN");
-                if (isStarted[0])
-                    pause();
-                else
-                    resume();
-                isStarted[0] = !isStarted[0];
-            }
-        });
-
-
-//        set stop listener
-        mCvCountdownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
-            @Override
-            public void onEnd(CountdownView cv) {
-                stop();
-            }
-        });
+    private ContextState() {
+        state = new WorkState();
     }
 
-    public static State getState() {
-        return state;
+    public static ContextState getInstance() {
+
+        if (instance == null)
+            instance = new ContextState();
+        return instance;
+    }
+
+    public void increaseSession() {
+        currentSession++;
+    }
+
+    public int getCurrentSession() {
+        return currentSession;
+    }
+
+    public void setCurrentSession(int currentSession) {
+        this.currentSession = currentSession;
     }
 
     public static void setState(State nextState) {
@@ -56,11 +44,11 @@ public class ContextState {
         state.stop();
     }
 
-    public void resume() {
+    public void resume() throws Exception {
         state.resume();
     }
 
-    public final void pause() {
+    public final void pause() throws Exception {
         state.pause();
     }
 }

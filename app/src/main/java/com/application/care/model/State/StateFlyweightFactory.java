@@ -3,26 +3,15 @@ package com.application.care.model.State;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.iwgang.countdownview.CountdownView;
-
 public class StateFlyweightFactory { // FlyweightFactory
     private static StateFlyweightFactory instance;
-    private static CountdownView countdownView;
     private final Map<String, State> stringStateMap;
 
     private StateFlyweightFactory() {
         stringStateMap = new HashMap<>();
     }
 
-    public static void setCountDownView(CountdownView countDownView) {
-        StateFlyweightFactory.countdownView = countDownView;
-    }
-
-    public static StateFlyweightFactory getInstance() throws Exception {
-
-        if (countdownView == null)
-            throw new Exception("countdownView == null");
-
+    public static StateFlyweightFactory getInstance() {
         if (instance == null)
             instance = new StateFlyweightFactory();
 
@@ -33,9 +22,9 @@ public class StateFlyweightFactory { // FlyweightFactory
         State state = null;
         if (!stringStateMap.containsKey(type)) {
             if (type.equals(BreakState.BREAK_STATE))
-                state = new BreakState(countdownView);
+                state = new BreakState();
             else if (type.equals(WorkState.WORK_STATE))
-                state = new WorkState(countdownView);
+                state = new WorkState();
 
             stringStateMap.put(type, state);
         } else {

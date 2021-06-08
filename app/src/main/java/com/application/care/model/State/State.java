@@ -2,36 +2,31 @@ package com.application.care.model.State;
 
 import android.util.Log;
 
-import org.jetbrains.annotations.NotNull;
-
-import cn.iwgang.countdownview.CountdownView;
+import com.application.care.util.HandlerCountDownTime;
 
 public abstract class State {
     private static final String TAG = "STATE"; // STATE PATTERN
-
-    protected CountdownView mCvCountdownView;
     private long remainTime = -1;
 
-    public State(@NotNull CountdownView mCvCountdownView) {
-        this.mCvCountdownView = mCvCountdownView;
+    public State() {
     }
 
     public abstract void start();
 
     public abstract void stop();
 
-    public final void resume() {
+    public final void resume() throws Exception {
         if (remainTime == -1)
-            ContextState.getState().start();
+            ContextState.getInstance().start();
         else {
-            mCvCountdownView.start(remainTime);
+            HandlerCountDownTime.getInstance().getmCvCountdownView().start(remainTime);
             Log.d(TAG, "I AM IN RESUME.");
         }
     }
 
-    public final void pause() {
+    public final void pause() throws Exception {
         Log.d(TAG, "I AM IN PAUSE.");
-        mCvCountdownView.pause();
-        remainTime = mCvCountdownView.getRemainTime();
+        HandlerCountDownTime.getInstance().getmCvCountdownView().pause();
+        remainTime = HandlerCountDownTime.getInstance().getmCvCountdownView().getRemainTime();
     }
 }

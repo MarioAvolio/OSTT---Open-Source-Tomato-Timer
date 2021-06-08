@@ -6,22 +6,19 @@ import androidx.annotation.NonNull;
 
 import com.application.care.data.HandlerDB;
 import com.application.care.model.TimeDate;
-import com.application.care.ui.home.HandlerCountDownTime;
-import com.application.care.ui.home.HandlerProgressBar;
 import com.application.care.util.HandlerAlert;
+import com.application.care.util.HandlerCountDownTime;
+import com.application.care.util.HandlerProgressBar;
 import com.application.care.util.HandlerSharedPreferences;
 import com.application.care.util.HandlerTime;
 
 import org.jetbrains.annotations.NotNull;
 
-import cn.iwgang.countdownview.CountdownView;
-
 public class WorkState extends State {
 
     public static final String WORK_STATE = "WorkState";
 
-    public WorkState(CountdownView mCvCountdownView) {
-        super(mCvCountdownView);
+    public WorkState() {
     }
 
     /*START STATE*/
@@ -37,7 +34,7 @@ public class WorkState extends State {
 
             HandlerAlert.getInstance().showToast("Start Work");
             Log.d(WORK_STATE, "start: " + HandlerSharedPreferences.getInstance().getWorkTime());
-            mCvCountdownView.start(HandlerSharedPreferences.getInstance().getWorkTime());
+            HandlerCountDownTime.getInstance().getmCvCountdownView().start(HandlerSharedPreferences.getInstance().getWorkTime());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,6 +59,7 @@ public class WorkState extends State {
             State nextState = StateFlyweightFactory.getInstance().getState(BreakState.BREAK_STATE);
             Log.d(WORK_STATE, "Next State -> " + nextState.toString());
             ContextState.setState(nextState);
+            ContextState.getInstance().start(); // PASS TO START STATE
 
 
             /*INCREASE PROGRESS BAR*/
@@ -71,7 +69,6 @@ public class WorkState extends State {
             e.printStackTrace();
         }
 
-        ContextState.getState().start(); // PASS TO START STATE
     }
 
     @NonNull
