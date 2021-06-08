@@ -18,10 +18,9 @@ public class HandlerCountDownTime {
     @SuppressLint("StaticFieldLeak")
     private static HandlerCountDownTime instance;
     private static CountdownView mCvCountdownView;
-    private static boolean isStarted;
+    private static boolean itWillBeStartAtNextState;
 
     private HandlerCountDownTime() {
-        isStarted = false;
     }
 
     public static HandlerCountDownTime getInstance() throws Exception {
@@ -62,6 +61,8 @@ public class HandlerCountDownTime {
     }
 
     public static void setCountDown(@NotNull View root) {
+        itWillBeStartAtNextState = true;
+
 
         /*
          *  INIT COUNTDOWN
@@ -73,7 +74,7 @@ public class HandlerCountDownTime {
             @Override
             public void onClick(View v) {
 
-                Log.d(TAG, "onClick: CLICK ON COUNTDOWN  -> " + isStarted);
+                Log.d(TAG, "onClick: CLICK ON COUNTDOWN  -> " + itWillBeStartAtNextState);
 
 
                 /*
@@ -83,10 +84,10 @@ public class HandlerCountDownTime {
                  *
                  * */
                 try {
-                    if (isStarted)
-                        ContextState.getInstance().pause();
-                    else
+                    if (itWillBeStartAtNextState)
                         ContextState.getInstance().resume();
+                    else
+                        ContextState.getInstance().pause();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -95,7 +96,7 @@ public class HandlerCountDownTime {
                 /*
                  *  CHANGE STATE ON CLICK
                  * */
-                isStarted = !isStarted;
+                itWillBeStartAtNextState = !itWillBeStartAtNextState;
             }
         });
 
@@ -114,12 +115,14 @@ public class HandlerCountDownTime {
     }
 
     public void goOnPause() throws Exception {
-        isStarted = false;
+        Log.d(TAG, "goOnPause: ");
+        itWillBeStartAtNextState = true;
         ContextState.getInstance().pause();
     }
 
     public void startingOrResume() throws Exception {
-        isStarted = true;
+        Log.d(TAG, "startingOrResume: ");
+        itWillBeStartAtNextState = false;
         ContextState.getInstance().resume();
     }
 

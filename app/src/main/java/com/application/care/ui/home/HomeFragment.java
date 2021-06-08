@@ -60,11 +60,11 @@ public class HomeFragment extends Fragment {
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause: ");
-//        try {
-//            HandlerCountDownTime.getInstance().goOnPause();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            HandlerCountDownTime.getInstance().goOnPause();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
