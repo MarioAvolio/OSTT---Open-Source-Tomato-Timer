@@ -6,10 +6,33 @@ The Pomodoro Technique is a time management method developed by Francesco Cirill
 
 The technique has been widely popularized by dozens of apps and websites providing timers and instructions. Closely related to concepts such as timeboxing and iterative and incremental development used in software design, the method has been adopted in pair programming contexts.
 
+## Utility used
+
+* **Chart**
+  * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) 
+* **SeekBar**
+  * [IndicatorSeekBar](https://github.com/warkiz/IndicatorSeekBar)
+* **ProgressBar**
+  * [NumberProgressBar](https://github.com/daimajia/NumberProgressBar) 
+* **CountDown**
+  * [CountDownView](https://github.com/iwgang/CountdownView) 
+* **Data**
+  * SQLITE
+  * Shared Preferences
+* **Menu**
+  * TabLayout
+  * ViewPager2
+* **Design Patterns**
+  * State Pattern
+  * Singleton Pattern
+  * Prototype Pattern
+
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
+
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
