@@ -16,9 +16,7 @@ The technique has been widely popularized by dozens of apps and websites providi
   * [NumberProgressBar](https://github.com/daimajia/NumberProgressBar) 
 * **CountDown**
   * [CountDownView](https://github.com/iwgang/CountdownView) 
-* **Data**
-  * SQLITE
-  * Shared Preferences
+
 
 
 ## Contributing
