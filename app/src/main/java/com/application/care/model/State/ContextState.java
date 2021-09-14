@@ -19,6 +19,10 @@ public class ContextState {
         return instance;
     }
 
+    public static void setState(State nextState) {
+        state = nextState;
+    }
+
     public void increaseSession() {
         currentSession++;
     }
@@ -29,10 +33,6 @@ public class ContextState {
 
     public void setCurrentSession(int currentSession) {
         this.currentSession = currentSession;
-    }
-
-    public static void setState(State nextState) {
-        state = nextState;
     }
 
     public void start() {

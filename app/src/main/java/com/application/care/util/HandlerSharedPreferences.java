@@ -13,16 +13,13 @@ import org.jetbrains.annotations.NotNull;
 public class HandlerSharedPreferences {
 
     private static final String TAG = "HandlerSharedPreferences";
-
+    private static final String WORKS_BEFORE_LONG_BREAK_TIME_ID = "WORKS_BEFORE_LONG_BREAK_TIME_ID";
     @SuppressLint("StaticFieldLeak")
     private static HandlerSharedPreferences instance;
-
-
+    private static Activity activity;
     private final String WORK_ID = "WORK_ID";
     private final String BREAK_ID = "BREAK_ID";
-    private static final String WORKS_BEFORE_LONG_BREAK_TIME_ID = "WORKS_BEFORE_LONG_BREAK_TIME_ID";
     private final String LONG_BREAK_ID = "LONG_BREAK_ID";
-    private static Activity activity;
     private final String DAILY_GOAL_ID = "DAILY_GOAL_ID";
     private final long DEFAULT_TIME_WORK;
     private final long DEFAULT_TIME_BREAK;

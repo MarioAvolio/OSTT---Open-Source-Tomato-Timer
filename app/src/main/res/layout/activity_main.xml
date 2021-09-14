@@ -15,10 +15,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tabIndicatorColor="@color/thirdColor"
         app:tabIndicatorHeight="3dp"
-        app:tabSelectedTextColor="@color/firstColor"
         app:tabMode="fixed"
         app:tabPaddingBottom="8dp"
         app:tabPaddingTop="15dp"
+        app:tabSelectedTextColor="@color/firstColor"
         app:tabTextColor="@color/secondColor" />
 
     <View

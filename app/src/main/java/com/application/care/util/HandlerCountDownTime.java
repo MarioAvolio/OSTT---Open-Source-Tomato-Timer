@@ -33,33 +33,6 @@ public class HandlerCountDownTime {
         return instance;
     }
 
-    public long getRemainingTime() throws Exception {
-        return mCvCountdownView.getRemainTime();
-    }
-
-    public void setTime(float time) {
-        mCvCountdownView.start((long) time);
-    }
-
-    private void setColor(int colorTime, int colorSuffix) throws Exception {
-        mCvCountdownView.dynamicShow
-                (
-                        new DynamicConfig.Builder()
-                                .setTimeTextColor(colorTime)
-                                .setSuffixTextColor(colorSuffix)
-                                .build());
-    }
-
-    public void setWorkColor() throws Exception {
-        setColor(HandlerColor.getInstance().getColorFromColorString(R.color.firstColor),
-                HandlerColor.getInstance().getColorFromColorString(R.color.thirdColor));
-    }
-
-    public void setBreakColor() throws Exception {
-        setColor(HandlerColor.getInstance().getColorFromColorString(R.color.thirdColor),
-                HandlerColor.getInstance().getColorFromColorString(R.color.thirdColor));
-    }
-
     public static void setCountDown(@NotNull View root) {
         itWillBeStartAtNextState = true;
 
@@ -112,6 +85,33 @@ public class HandlerCountDownTime {
                 }
             }
         });
+    }
+
+    public long getRemainingTime() throws Exception {
+        return mCvCountdownView.getRemainTime();
+    }
+
+    public void setTime(float time) {
+        mCvCountdownView.start((long) time);
+    }
+
+    private void setColor(int colorTime, int colorSuffix) throws Exception {
+        mCvCountdownView.dynamicShow
+                (
+                        new DynamicConfig.Builder()
+                                .setTimeTextColor(colorTime)
+                                .setSuffixTextColor(colorSuffix)
+                                .build());
+    }
+
+    public void setWorkColor() throws Exception {
+        setColor(HandlerColor.getInstance().getColorFromColorString(R.color.firstColor),
+                HandlerColor.getInstance().getColorFromColorString(R.color.thirdColor));
+    }
+
+    public void setBreakColor() throws Exception {
+        setColor(HandlerColor.getInstance().getColorFromColorString(R.color.thirdColor),
+                HandlerColor.getInstance().getColorFromColorString(R.color.thirdColor));
     }
 
     public void goOnPause() throws Exception {

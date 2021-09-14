@@ -31,12 +31,6 @@ public class HandlerProgressBar {
         return instance;
     }
 
-    public void setMax(int max) {
-        numberProgressBar.setMax(max);
-        Log.d(TAG, "setMax of " + max);
-
-    }
-
     @SuppressLint("ResourceType")
     private static void setColor() throws Exception {
         numberProgressBar.setProgressTextColor(HandlerColor.getInstance().getColorFromColorString(R.color.secondColor));
@@ -92,6 +86,12 @@ public class HandlerProgressBar {
     public static void setView(@NotNull View root) throws Exception {
         HandlerProgressBar.root = root;
         init();
+    }
+
+    public void setMax(int max) {
+        numberProgressBar.setMax(max);
+        Log.d(TAG, "setMax of " + max);
+
     }
 
     public int getProgress() {
