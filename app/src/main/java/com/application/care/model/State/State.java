@@ -20,12 +20,12 @@ public abstract class State {
             ContextState.getInstance().start();
         else {
             HandlerCountDownTime.getInstance().getmCvCountdownView().start(remainTime);
-            Log.d(TAG, "I AM IN RESUME.");
+            Log.d(TAG, "I AM IN RESUME. Remaining Time " + remainTime);
         }
     }
 
     public final void pause() throws Exception {
-        Log.d(TAG, "I AM IN PAUSE.");
+        Log.d(TAG, "I AM IN PAUSE. Remaining Time " + remainTime);
         HandlerCountDownTime.getInstance().getmCvCountdownView().pause();
         remainTime = HandlerCountDownTime.getInstance().getmCvCountdownView().getRemainTime();
     }

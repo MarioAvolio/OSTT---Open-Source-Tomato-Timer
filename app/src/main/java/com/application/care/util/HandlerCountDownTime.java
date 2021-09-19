@@ -42,6 +42,14 @@ public class HandlerCountDownTime {
          * */
         mCvCountdownView = root.findViewById(R.id.countDown);
 
+        // set initial time
+        try {
+            long time = HandlerSharedPreferences.getInstance().getWorkTime();
+            mCvCountdownView.updateShow(time);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 //        set click listener
         mCvCountdownView.setOnClickListener(new View.OnClickListener() {
             @Override
