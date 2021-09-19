@@ -13,10 +13,10 @@ import org.jetbrains.annotations.NotNull;
 public class HandlerSharedPreferences {
 
     private static final String TAG = "HandlerSharedPreferences";
-    private static final String WORKS_BEFORE_LONG_BREAK_TIME_ID = "WORKS_BEFORE_LONG_BREAK_TIME_ID";
     @SuppressLint("StaticFieldLeak")
     private static HandlerSharedPreferences instance;
     private static Activity activity;
+    private final String WORKS_BEFORE_LONG_BREAK_TIME_ID = "WORKS_BEFORE_LONG_BREAK_TIME_ID";
     private final String WORK_ID = "WORK_ID";
     private final String BREAK_ID = "BREAK_ID";
     private final String LONG_BREAK_ID = "LONG_BREAK_ID";
@@ -125,7 +125,7 @@ public class HandlerSharedPreferences {
     public void setDailyGoal(long dailyGoal) {
         Log.d(TAG, "setLongBreakTime: " + dailyGoal);
         SharedPreferences.Editor editor = getEditor();
-        editor.putLong(WORKS_BEFORE_LONG_BREAK_TIME_ID, dailyGoal);
+        editor.putLong(DAILY_GOAL_ID, dailyGoal);
         editor.apply(); //saving to disk
     }
 }
